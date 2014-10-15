@@ -17,7 +17,7 @@ if (!defined('CPVG_PLUGIN_DIR'))
     define('CPVG_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . CPVG_PLUGIN_NAME);
 
 if (!defined('CPVG_PLUGIN_URL'))
-    define('CPVG_PLUGIN_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/');
+    define('CPVG_PLUGIN_URL', plugins_url('/'.CPVG_PLUGIN_NAME.'/'));
 
 if (!defined('CPVG_POST_TEMPLATE_DIR'))
     define('CPVG_POST_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/post');
