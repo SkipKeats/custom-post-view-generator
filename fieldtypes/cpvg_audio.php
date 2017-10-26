@@ -46,7 +46,7 @@ class cpvg_audio{
 
 				$html.="<script language='JavaScript'>
 						flowplayer( 'cpvg_audio_player_container_".$current_id."',
-									'". CPVG_PLUGIN_URL . "/libs/flowplayer/flowplayer-3.2.7.swf',
+									'". CPVG_PLUGIN_URL . "/libs/flowplayer/flowplayer-3.2.18.swf',
 										{
 											plugins: {
 												controls: {
