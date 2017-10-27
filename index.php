@@ -78,7 +78,7 @@ if (is_admin()) {
     {
         //JS
         wp_register_script('cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', false, null);
-        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.6.min.js', false, null);
+        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null);
         wp_register_script('cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null);
         wp_register_script('cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null);
 
@@ -106,7 +106,7 @@ if (is_admin()) {
 } else {
     function cpvg_scripts()
     {
-        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.6.min.js', array('jquery'), null);
+        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array('jquery'), null);
         wp_register_script('cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array('jquery'), null);
         wp_register_script('cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array('jquery'), null);
 
@@ -126,7 +126,7 @@ if (is_admin()) {
 }
 
 /*
- * Create tables, deletes current tables to prevent version incompatibility 
+ * Create tables, deletes current tables to prevent version incompatibility
  */
 function cpvg_activation()
 {
@@ -164,7 +164,7 @@ function cpvg_activation()
 }
 
 /*
- * Delete tables 
+ * Delete tables
  */
 function cpvg_deactivation()
 {

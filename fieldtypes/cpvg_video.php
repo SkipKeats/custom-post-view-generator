@@ -86,7 +86,7 @@ class cpvg_video{
 				$html.= "<a id='cpvg_player_container_".$current_id."' style='display:block;width:".$cvpg_video_size[0]."px;height:".$cvpg_video_size[1]."px;' href='".$video_url."'></a>";
 				$html.="<script language='JavaScript'>
 						flowplayer( 'cpvg_player_container_".$current_id."',
-									'". CPVG_PLUGIN_URL . "/libs/flowplayer/flowplayer-3.2.7.swf',
+									'". CPVG_PLUGIN_URL . "/libs/flowplayer/flowplayer-3.2.18.swf',
 										{
 											clip: {
 												autoPlay: false,
