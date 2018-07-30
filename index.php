@@ -9,6 +9,7 @@ Author URI: http://www.betasix.net
 */
 if (!defined('WP_PLUGIN_DIR'))
     define('WP_PLUGIN_DIR', '/');
+    echo constant('WP_PLUGIN_DIR');
 
 if (!defined('CPVG_PLUGIN_NAME'))
     define('CPVG_PLUGIN_NAME', 'custom-post-view-generator');
