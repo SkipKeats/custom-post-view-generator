@@ -7,41 +7,55 @@ Version: 0.4.5
 Author: Marco Constâncio
 Author URI: http://www.betasix.net
 */
-if (!defined('WP_PLUGIN_DIR'))
+if (!defined('WP_INCLUDES_DIR')) {
+    define('WP_INCLUDES_DIR', '/wp/wp-includes/');
+}
+
+if (!defined('WP_PLUGIN_DIR')) {
     define('WP_PLUGIN_DIR', '/');
+}
 
-if (!defined('CPVG_PLUGIN_NAME'))
+if (!defined('CPVG_PLUGIN_NAME')) {
     define('CPVG_PLUGIN_NAME', 'custom-post-view-generator');
+}
 
-if (!defined('CPVG_PLUGIN_DIR'))
+if (!defined('CPVG_PLUGIN_DIR')) {
     define('CPVG_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . CPVG_PLUGIN_NAME);
+}
 
-if (!defined('CPVG_PLUGIN_URL'))
+if (!defined('CPVG_PLUGIN_URL')) {
     define('CPVG_PLUGIN_URL', plugins_url('/'.CPVG_PLUGIN_NAME.'/'));
+}
 
-if (!defined('CPVG_POST_TEMPLATE_DIR'))
+if (!defined('CPVG_POST_TEMPLATE_DIR')) {
     define('CPVG_POST_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/post');
+}
 
-if (!defined('CPVG_LIST_TEMPLATE_DIR'))
+if (!defined('CPVG_LIST_TEMPLATE_DIR')) {
     define('CPVG_LIST_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/list');
+}
 
-if (!defined('CPVG_ADMIN_TEMPLATE_DIR'))
+if (!defined('CPVG_ADMIN_TEMPLATE_DIR')) {
     define('CPVG_ADMIN_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/admin');
 
-if (!defined('CPVG_FIELDTYPES_DIR'))
+if (!defined('CPVG_FIELDTYPES_DIR')) {
     define('CPVG_FIELDTYPES_DIR', CPVG_PLUGIN_DIR . '/fieldtypes');
+}
 
-if (!defined('CPVG_PLUGINSCODE_DIR'))
+if (!defined('CPVG_PLUGINSCODE_DIR')) {
     define('CPVG_PLUGINSCODE_DIR', CPVG_PLUGIN_DIR . '/pluginscode');
+}
 
-if (!defined('CPVG_DATAFIELDS_DIR'))
+if (!defined('CPVG_DATAFIELDS_DIR')) {
     define('CPVG_DATAFIELDS_DIR', CPVG_PLUGIN_DIR . '/datafields');
+}
 
 if (!defined('CPVG_PARAMETER_DIR'))
     define('CPVG_PARAMETER_DIR', CPVG_PLUGIN_DIR . '/parameters');
 
-if (!defined('CPVG_POST_TEMPLATE_URL'))
+if (!defined('CPVG_POST_TEMPLATE_URL')) {
     define('CPVG_POST_TEMPLATE_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/templates/post');
+}
 
 register_activation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_activation');
 register_deactivation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_deactivation');
@@ -82,10 +96,17 @@ if (is_admin()) {
         wp_register_script('cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null);
         wp_register_script('cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null);
 
-        wp_enqueue_script(array('jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable',
+        wp_enqueue_script(array(
+            'jquery-ui-draggable', 
+            'jquery-ui-droppable', 
+            'jquery-ui-sortable',
             'jquery-ui-dialog',
             'cpvg_flowplayer',
-            'cpvg_jquery_tmpl', 'cpvg_knockout', 'cpvg_pagination', 'cpvg_functions'));
+            'cpvg_jquery_tmpl', 
+            'cpvg_knockout', 
+            'cpvg_pagination', 
+            'cpvg_functions'
+        ));
 
         //Necessary for Meta Boxes in List Views
         wp_enqueue_script(array('common', 'wp-lists', 'postbox'));
@@ -305,7 +326,8 @@ function cpvg_post_views()
 function cpvg_fieldtypes_form($post_types, $view_type = 'post')
 {
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
-    require_once WP_PLUGIN_DIR . "/../../wp-includes/link-template.php";
+    // Edited from WP_PLUGINS_DIR to WP_INCLUDES_DIR
+    require_once WP_INCLUDES_DIR . "link-template.php";
 
     ?>
     <script type='text/javascript'>
