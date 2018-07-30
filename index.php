@@ -9,7 +9,6 @@ Author URI: http://www.betasix.net
 */
 if (!defined('WP_PLUGIN_DIR'))
     define('WP_PLUGIN_DIR', '/');
-    echo constant('WP_PLUGIN_DIR');
 
 if (!defined('CPVG_PLUGIN_NAME'))
     define('CPVG_PLUGIN_NAME', 'custom-post-view-generator');
@@ -306,7 +305,8 @@ function cpvg_post_views()
 function cpvg_fieldtypes_form($post_types, $view_type = 'post')
 {
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
-    require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
+    //require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
+    
 
     ?>
     <script type='text/javascript'>
