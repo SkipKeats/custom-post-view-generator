@@ -3,7 +3,8 @@
 Plugin Name: Custom Post Type View Generator
 Plugin URI: https://github.com/GSA/custom-post-view-generator
 Description: Creates views allowing the user to display of data of custom post 
-type fields and other wordpress fields without the any theme modification.
+             type fields and other wordpress fields without the any theme 
+             modification.
 Version: 0.5.0
 Author: Marco Constâncio (original)
 Author URI: http://www.betasix.net
@@ -68,12 +69,12 @@ cpvg_load_fieldtypes();
 add_action('wp_head', 'cpvg_load_scripts'); // to load jquery on the front page
 add_action('admin_head', 'cpvg_load_admin_scripts'); // to load jquery on the admin page
 
-function cpvg_load_scripts()
+function cpvg_load_scripts() 
 {
     wp_enqueue_script('jquery');
 }
 
-function cpvg_load_admin_scripts()
+function cpvg_load_admin_scripts() 
 {
     //load_scripts();
     cpvg_load_scripts();
@@ -97,13 +98,28 @@ if (is_admin()) {
         wp_register_script('cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null);
         wp_register_script('cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null);
 
-        wp_enqueue_script(array('jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable',
-            'jquery-ui-dialog',
-            'cpvg_flowplayer',
-            'cpvg_jquery_tmpl', 'cpvg_knockout', 'cpvg_pagination', 'cpvg_functions'));
+        wp_enqueue_script( 
+            array(
+                'jquery-ui-draggable', 
+                'jquery-ui-droppable', 
+                'jquery-ui-sortable',
+                'jquery-ui-dialog',
+                'cpvg_flowplayer',
+                'cpvg_jquery_tmpl', 
+                'cpvg_knockout', 
+                'cpvg_pagination', 
+                'cpvg_functions',
+            )
+        );
 
-        //Necessary for Meta Boxes in List Views
-        wp_enqueue_script(array('common', 'wp-lists', 'postbox'));
+        // Necessary for Meta Boxes in List Views
+        wp_enqueue_script(
+            array(
+                'common',
+                'wp-lists',
+                'postbox',
+            )
+        );
     }
 
     add_action('wp_enqueue_scripts', 'cpvg_admin_scripts');
@@ -119,13 +135,19 @@ if (is_admin()) {
     //LOAD CSS
     add_action('admin_enqueue_scripts', 'cpvg_load_css');
 } else {
-    function cpvg_scripts()
+    function cpvg_scripts() 
     {
         wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array('jquery'), null);
         wp_register_script('cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array('jquery'), null);
         wp_register_script('cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array('jquery'), null);
 
-        wp_enqueue_script(array('cpvg_flowplayer', 'cpvg_pagination', 'cpvg_tablesorter'));
+        wp_enqueue_script(
+            array(
+                'cpvg_flowplayer',
+                'cpvg_pagination',
+                'cpvg_tablesorter'
+            )
+        );
     }
 
     add_action('wp_enqueue_scripts', 'cpvg_scripts');
