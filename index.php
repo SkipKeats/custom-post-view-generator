@@ -1,13 +1,15 @@
 <?php
 /*
 Plugin Name: Custom Post Type View Generator
-Plugin URI:
-Description:
-Version: 0.4.5
-Author: Marco Constâncio
+Plugin URI: https://github.com/GSA/custom-post-view-generator
+Description: Creates views allowing the user to display of data of custom post 
+type fields and other wordpress fields without the any theme modification.
+Version: 0.5.0
+Author: Marco Constâncio (original)
 Author URI: http://www.betasix.net
-*/
-if (!defined('WP_PLUGIN_DIR'))
+ */
+
+if (!defined('WP_PLUGIN_DIR')) 
     define('WP_PLUGIN_DIR', '/');
 
 if (!defined('CPVG_PLUGIN_NAME'))
