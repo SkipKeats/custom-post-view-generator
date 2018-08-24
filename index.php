@@ -9,41 +9,54 @@ Author: Marco Constâncio (original)
 Author URI: http://www.betasix.net
  */
 
-if (!defined('WP_PLUGIN_DIR')) 
+if (!defined('WP_PLUGIN_DIR')) {
     define('WP_PLUGIN_DIR', '/');
+}
 
-if (!defined('CPVG_PLUGIN_NAME'))
+if (!defined('CPVG_PLUGIN_NAME')) {
     define('CPVG_PLUGIN_NAME', 'custom-post-view-generator');
+}
 
-if (!defined('CPVG_PLUGIN_DIR'))
+if (!defined('CPVG_PLUGIN_DIR')) {
     define('CPVG_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . CPVG_PLUGIN_NAME);
+}
 
-if (!defined('CPVG_PLUGIN_URL'))
+if (!defined('CPVG_PLUGIN_URL')) {
     define('CPVG_PLUGIN_URL', plugins_url('/'.CPVG_PLUGIN_NAME.'/'));
+}
 
-if (!defined('CPVG_POST_TEMPLATE_DIR'))
+if (!defined('CPVG_POST_TEMPLATE_DIR')) {
     define('CPVG_POST_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/post');
+}
 
-if (!defined('CPVG_LIST_TEMPLATE_DIR'))
+if (!defined('CPVG_LIST_TEMPLATE_DIR')) {
     define('CPVG_LIST_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/list');
+}
 
-if (!defined('CPVG_ADMIN_TEMPLATE_DIR'))
+if (!defined('CPVG_ADMIN_TEMPLATE_DIR')) {
     define('CPVG_ADMIN_TEMPLATE_DIR', CPVG_PLUGIN_DIR . '/templates/admin');
+}
 
-if (!defined('CPVG_FIELDTYPES_DIR'))
+if (!defined('CPVG_FIELDTYPES_DIR')) {
     define('CPVG_FIELDTYPES_DIR', CPVG_PLUGIN_DIR . '/fieldtypes');
+}
 
-if (!defined('CPVG_PLUGINSCODE_DIR'))
+if (!defined('CPVG_PLUGINSCODE_DIR')) {
     define('CPVG_PLUGINSCODE_DIR', CPVG_PLUGIN_DIR . '/pluginscode');
+}
 
-if (!defined('CPVG_DATAFIELDS_DIR'))
+if (!defined('CPVG_DATAFIELDS_DIR')) {
     define('CPVG_DATAFIELDS_DIR', CPVG_PLUGIN_DIR . '/datafields');
+}
 
-if (!defined('CPVG_PARAMETER_DIR'))
+if (!defined('CPVG_PARAMETER_DIR')) {
     define('CPVG_PARAMETER_DIR', CPVG_PLUGIN_DIR . '/parameters');
+}
 
-if (!defined('CPVG_POST_TEMPLATE_URL'))
-    define('CPVG_POST_TEMPLATE_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/templates/post');
+if (!defined('CPVG_POST_TEMPLATE_URL')) {
+    // define('CPVG_POST_TEMPLATE_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/templates/post');
+    define('CPVG_POST_TEMPLATE_URL', 'CPVG_PLUGIN_URL' . '/templates/post');
+}
 
 register_activation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_activation');
 register_deactivation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_deactivation');
@@ -52,7 +65,7 @@ register_deactivation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_deactivation');
 cpvg_load_fieldtypes();
 
 //FIX FOR WORDPRESS 3.4
-add_action('wp_head', 'cpvg_load_scripts'); // to load jquery on the font page
+add_action('wp_head', 'cpvg_load_scripts'); // to load jquery on the front page
 add_action('admin_head', 'cpvg_load_admin_scripts'); // to load jquery on the admin page
 
 function cpvg_load_scripts()
