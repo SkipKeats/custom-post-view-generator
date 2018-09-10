@@ -1,13 +1,21 @@
 <?php
-/*
-Plugin Name: Custom Post Type View Generator
-Plugin URI: https://github.com/GSA/custom-post-view-generator
-Description: Creates views allowing the user to display of data of custom post 
-             type fields and other wordpress fields without the any theme 
-             modification.
-Version: 0.5.0
-Author: Marco Constâncio (original)
-Author URI: http://www.betasix.net
+/**
+ * Custom Post Type View Generator
+ * 
+ * @package   CustomPostTypeViewGenerator
+ * @author    Marco Constancio <marcoconstancio@betasix.net>
+ * @copyright 2014 Beta Six 
+ * @license   https://www.gnu.org/licenses/quick-guide-gplv3.html GPL-3.0+
+ * 
+ * @wordpress-plugin
+ * Plugin Name: Custom Post Type View Generator
+ * Plugin URI: https://github.com/GSA/custom-post-view-generator
+ * Description: Creates views allowing the user to display of data of custom post 
+ *              type fields and other wordpress fields without the any theme 
+ *              modification.
+ * Version: 0.5.0
+ * Author: Marco Constâncio (original)
+ * Author URI: http://www.betasix.net
  */
 
 if (!defined('WP_PLUGIN_DIR')) {
@@ -343,7 +351,7 @@ function cpvg_fieldtypes_form($post_types, $view_type = 'post')
 {
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
     require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
-    //require_once includes_url('/link-template.php');
+    require_once includes_url('/link-template.php');
 
     ?>
     <script type='text/javascript'>
