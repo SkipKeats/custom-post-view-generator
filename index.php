@@ -18,6 +18,7 @@
  * Author URI: http://www.betasix.net
  */
 
+// Define constants
 if (!defined('WP_PLUGIN_DIR')) {
     define('WP_PLUGIN_DIR', '/');
 }
@@ -102,7 +103,7 @@ if (is_admin()) {
     {
         //JS
         wp_register_script('cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', false, null);
-        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null);
+        // wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null);
         wp_register_script('cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null);
         wp_register_script('cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null);
 
@@ -145,13 +146,13 @@ if (is_admin()) {
 } else {
     function cpvg_scripts() 
     {
-        wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array('jquery'), null);
+        // wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array('jquery'), null);
         wp_register_script('cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array('jquery'), null);
         wp_register_script('cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array('jquery'), null);
 
         wp_enqueue_script(
             array(
-                'cpvg_flowplayer',
+                // 'cpvg_flowplayer',
                 'cpvg_pagination',
                 'cpvg_tablesorter'
             )
@@ -184,9 +185,9 @@ function cpvg_activation()
     $wp_cpvg_table = $table_prefix . "cpvg_post_views";
     if ($wpdb->get_var("show tables like '$wp_cpvg_table'") != $wp_cpvg_table) {
         $sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
-        $sql0 .= "  `id`       					int(11)      NOT NULL auto_increment,";
-        $sql0 .= "  `name` 	varchar(255) NOT NULL default '', ";
-        $sql0 .= "  `options`  text         NOT NULL default '', ";
+        $sql0 .= "  `id`        int(11)      NOT NULL auto_increment,";
+        $sql0 .= "  `name` 	    varchar(255) NOT NULL default '', ";
+        $sql0 .= "  `options`   text         NOT NULL default '', ";
         $sql0 .= "  UNIQUE KEY `id` (`id`) ";
         $sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
@@ -352,7 +353,6 @@ function cpvg_fieldtypes_form($post_types, $view_type = 'post')
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
     require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
     require_once includes_url('/link-template.php');
-    echo includes_url; 
 
     ?>
     <script type='text/javascript'>
