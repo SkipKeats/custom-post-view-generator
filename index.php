@@ -340,6 +340,10 @@ function cpvg_post_views()
         <div id='icon-edit-pages' class='icon32'><br></div>
         <h2>Post Views</h2>
         <?php
+            $url = includes_url();
+            echo $url;
+        ?>
+        <?php
         cpvg_fieldtypes_form($post_types, 'post');
         echo "<div data-bind=\"template:'cpvg_fieldtypes_form'\"></div>";
         ?>
@@ -353,8 +357,6 @@ function cpvg_fieldtypes_form($post_types, $view_type = 'post')
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
     require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
     require_once includes_url('/link-template.php');
-    $url = includes_url();
-    echo $url;
 
     ?>
     <script type='text/javascript'>
