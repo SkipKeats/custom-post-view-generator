@@ -340,7 +340,7 @@ function cpvg_post_views()
         <div id='icon-edit-pages' class='icon32'><br></div>
         <h2>Post Views</h2>
         <?php
-            $url = includes_url();
+            $url = includes_url('link-template.php');
             echo $url;
         ?>
         <?php
