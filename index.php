@@ -341,10 +341,22 @@ function cpvg_post_views()
         <h2>Post Views</h2>
         <?php
             $url = includes_url('link-template.php');
+            $purl = plugins_url();
             echo "Includes Path: " . $url . "<br />";
             echo "Relative Includes Path: " . WPINC . "<br />";
             echo "Plugin Path: " . WP_PLUGIN_DIR . "<br />";
             echo "CPVG Plugin Name: " . CPVG_PLUGIN_NAME . "<br />";
+            echo "CPVG Plugin Dir: " . CPVG_PLUGIN_DIR . "<br />";
+            echo "Plugins URL: " . $purl . "<br />"; 
+            echo "CPVG Plugin URL: " . CPVG_PLUGIN_URL . "<br />";
+            echo "CPVG Post Template Dir: " . CPVG_POST_TEMPLATE_DIR . "<br />";
+            echo "CPVG List Template Dir: " . CPVG_LIST_TEMPLATE_DIR . "<br />";
+            echo "CPVG Admin Template Dir: " . CPVG_ADMIN_TEMPLATE_DIR . "<br />";
+            echo "CPVG Field Types Dir: " . CPVG_FIELDTYPES_DIR . "<br />";
+            echo "CPVG Plugins Code Dir: " . CPVG_PLUGINSCODE_DIR . "<br />";
+            echo "CPVG Data Fields Dir: " . CPVG_DATAFIELDS_DIR . "<br />";
+            echo "CPVG Parameter Dir: " . CPVG.PARAMETER.DIR . "<br />";
+            echo "CPVG Post Template URL: " . CPVG_POST_TEMPLATE_URL . "<br />";
         ?>
         <?php
         cpvg_fieldtypes_form($post_types, 'post');
@@ -359,7 +371,8 @@ function cpvg_fieldtypes_form($post_types, $view_type = 'post')
 {
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
     //require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
-    require_once includes_url('link-template.php');
+    //require_once includes_url('link-template.php');
+    require_once WPINC . "link-template.php";
 
     ?>
     <script type='text/javascript'>
