@@ -342,7 +342,9 @@ function cpvg_post_views()
         <?php
             $url = includes_url('link-template.php');
             echo "Includes Path: " . $url . "<br />";
+            echo "Relative Includes Path: " . WPINC . "<br />";
             echo "Plugin Path: " . WP_PLUGIN_DIR . "<br />";
+            echo "CPVG Plugin Name: " . CPVG_PLUGIN_NAME . "<br />";
         ?>
         <?php
         cpvg_fieldtypes_form($post_types, 'post');
