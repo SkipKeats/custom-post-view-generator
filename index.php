@@ -65,7 +65,7 @@ if (!defined('CPVG_PARAMETER_DIR')) {
 
 if (!defined('CPVG_POST_TEMPLATE_URL')) {
     // define('CPVG_POST_TEMPLATE_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/templates/post');
-    define('CPVG_POST_TEMPLATE_URL', CPVG_PLUGIN_URL . '/templates/post');
+    define('CPVG_POST_TEMPLATE_URL', CPVG_PLUGIN_URL . 'templates/post');
 }
 
 register_activation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_activation');
@@ -355,7 +355,7 @@ function cpvg_post_views()
             echo "CPVG Field Types Dir: " . CPVG_FIELDTYPES_DIR . "<br />";
             echo "CPVG Plugins Code Dir: " . CPVG_PLUGINSCODE_DIR . "<br />";
             echo "CPVG Data Fields Dir: " . CPVG_DATAFIELDS_DIR . "<br />";
-            echo "CPVG Parameter Dir: " . CPVG.PARAMETER.DIR . "<br />";
+            echo "CPVG Parameter Dir: " . CPVG_PARAMETER_DIR . "<br />";
             echo "CPVG Post Template URL: " . CPVG_POST_TEMPLATE_URL . "<br />";
         ?>
         <?php
