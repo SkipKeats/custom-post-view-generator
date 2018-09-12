@@ -342,6 +342,7 @@ function cpvg_post_views()
         <?php
             $url = includes_url('link-template.php');
             echo $url;
+            echo WP_PLUGIN_DIR;
         ?>
         <?php
         cpvg_fieldtypes_form($post_types, 'post');
