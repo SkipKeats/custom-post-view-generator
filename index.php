@@ -65,7 +65,7 @@ if (!defined('CPVG_PARAMETER_DIR')) {
 
 if (!defined('CPVG_POST_TEMPLATE_URL')) {
     // define('CPVG_POST_TEMPLATE_URL', WP_PLUGIN_URL . '/' . CPVG_PLUGIN_NAME . '/templates/post');
-    define('CPVG_POST_TEMPLATE_URL', 'CPVG_PLUGIN_URL' . '/templates/post');
+    define('CPVG_POST_TEMPLATE_URL', CPVG_PLUGIN_URL . '/templates/post');
 }
 
 register_activation_hook(CPVG_PLUGIN_DIR . '/index.php', 'cpvg_activation');
@@ -372,7 +372,7 @@ function cpvg_fieldtypes_form($post_types, $view_type = 'post')
     require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
     //require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
     //require_once includes_url('link-template.php');
-    require_once WPINC . "link-template.php";
+    require_once WPINC . "/link-template.php";
 
     ?>
     <script type='text/javascript'>
