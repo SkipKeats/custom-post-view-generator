@@ -306,14 +306,16 @@ function cpvg_list_views() {
 <?php
 }
 
-//Generate the list view admin metaboxes that compose the list view admin window
-function cvpg_listview_metabox($data)
-{
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
+
+/**
+ * Summary: Generate the list view admin metaboxes that compose the list view admin window.
+ */
+function cvpg_listview_metabox( $data ) {
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
 
 	global $wpdb;
-	$db_data = cpvg_get_dbfields_names("list");
+	$db_data = cpvg_get_dbfields_names( 'list' );
 
 	switch ($data["metabox"]) {
 		case 'list_views':
