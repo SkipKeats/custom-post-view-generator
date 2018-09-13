@@ -272,9 +272,13 @@ function cpvg_list_views() {
 
 	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
 
-	$meta_boxes_data = array('list_views' => 'List Views', 'fields' => 'Fields', 'parameters' => 'Parameters', 'finish' => 'Finish');
-	$post_types = array_diff_assoc(get_post_types(array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
-
+	$meta_boxes_data = array(
+		'list_views' => 'List Views',
+		'fields' => 'Fields',
+		'parameters' => 'Parameters',
+		'finish' => 'Finish',
+	);
+	$post_types = array_diff_assoc( get_post_types( array( '_builtin' => false ), 'names' ), array( 'content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy' ) );
 
 	foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
 		add_meta_box('cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default');
