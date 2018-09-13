@@ -306,7 +306,6 @@ function cpvg_list_views() {
 <?php
 }
 
-
 /**
  * Summary: Generate the list view admin metaboxes that compose the list view admin window.
  */
@@ -317,7 +316,7 @@ function cvpg_listview_metabox( $data ) {
 	global $wpdb;
 	$db_data = cpvg_get_dbfields_names( 'list' );
 
-	switch ($data["metabox"]) {
+	switch ( $data['metabox'] ) {
 		case 'list_views':
 			$template_files = cpvg_capitalize_array_values(cpvg_get_extensions_files("php", CPVG_LIST_TEMPLATE_DIR));
 			$rows_data = $wpdb->get_results("SELECT " . $db_data['id_field'] . " ," . $db_data['name_field'] . " FROM " . $db_data['table_name']);
