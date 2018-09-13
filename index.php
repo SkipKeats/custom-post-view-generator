@@ -260,70 +260,50 @@ function cpvg_menu_pages() {
 	add_submenu_page( 'cpvg_topmenu', 'Help', 'Help', 'manage_options', 'cpvg_help1', 'cpvg_help' );
 }
 
-/***************************************************** ADMIN WINDOWS ******************************************************/
+/******************************************************* ADMIN WINDOWS ******************************************************/
 
 /**
  * Summary: Generate the list view admin window.
  */
-function cpvg_list_views() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_die( 'You do not have sufficient permissions to access this page.' );
+function cpvg_list_views()
+{
+	if (!current_user_can('manage_options')) {
+		wp_die('You do not have sufficient permissions to access this page.');
 	}
 
-	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
+	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
 
-	$meta_boxes_data = array(
-		'list_views' => 'List Views',
-		'fields' => 'Fields',
-		'parameters' => 'Parameters',
-		'finish' => 'Finish'
-	);
-	$post_types = array_diff_assoc( get_post_types(
-		array(
-			'_builtin' => false ),
-			'names',
-		),
-		array(
-			'content-type' => 'content-type',
-			'rw_content_type' => 'rw_content_type',
-			'rw_taxonomy' => 'rw_taxonomy',
-		)
-	);
-	foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
-		add_meta_box( 'cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default' );
+	$meta_boxes_data = array('list_views' => 'List Views', 'fields' => 'Fields', 'parameters' => 'Parameters', 'finish' => 'Finish');
+	$post_types = array_diff_assoc(get_post_types(array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
+
+
+	foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
+		add_meta_box('cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default');
 	}
 	?>
 
-	<div id="cpvg-wrap" class="wrap cpvg-list-views metabox-holder">
-		<div id="icon-edit-pages" class="icon32"><br /></div>
+	<div id='cpvg-wrap' class='wrap cpvg-list-views metabox-holder'>
+		<div id='icon-edit-pages' class='icon32'><br></div>
 		<h2>List Views</h2>
 		<?php
-		foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
-			do_meta_boxes(
-				'cpvg-' . $meta_boxes_id,
-				'normal',
-				array( 
-					'metabox' => $meta_boxes_id,
-					'post_type' => $post_types,
-				)
-			);
+		foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
+			do_meta_boxes('cpvg-' . $meta_boxes_id, 'normal', array("metabox" => $meta_boxes_id, "post_type" => $post_types));
 		}
 		?>
 	</div>
 <?php
 }
 
-/**
- * Summary: Generate the list view admin metaboxes that compose the list view admin window.
- */
-function cvpg_listview_metabox( $data ) {
-	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
-	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
+//Generate the list view admin metaboxes that compose the list view admin window
+function cvpg_listview_metabox($data)
+{
+	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
+	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
 
 	global $wpdb;
-	$db_data = cpvg_get_dbfields_names( 'list' );
+	$db_data = cpvg_get_dbfields_names("list");
 
-	switch ( $data['metabox'] ) {
+	switch ($data["metabox"]) {
 		case 'list_views':
 			$template_files = cpvg_capitalize_array_values(cpvg_get_extensions_files("php", CPVG_LIST_TEMPLATE_DIR));
 			$rows_data = $wpdb->get_results("SELECT " . $db_data['id_field'] . " ," . $db_data['name_field'] . " FROM " . $db_data['table_name']);
