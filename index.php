@@ -282,17 +282,24 @@ function cpvg_list_views() {
 		get_post_types( array( '_builtin' => false ), 'names' ), array( 'content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy' ) 
 	);
 
-	foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
-		add_meta_box('cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default');
+	foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
+		add_meta_box( 'cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default' );
 	}
 	?>
 
-	<div id='cpvg-wrap' class='wrap cpvg-list-views metabox-holder'>
-		<div id='icon-edit-pages' class='icon32'><br></div>
+	<div id="cpvg-wrap" class="wrap cpvg-list-views metabox-holder">
+		<div id="icon-edit-pages" class="icon32"><br /></div>
 		<h2>List Views</h2>
 		<?php
-		foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
-			do_meta_boxes('cpvg-' . $meta_boxes_id, 'normal', array("metabox" => $meta_boxes_id, "post_type" => $post_types));
+		foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
+			do_meta_boxes(
+				'cpvg-' . $meta_boxes_id,
+				'normal',
+				array(
+					'metabox' => $meta_boxes_id,
+					'post_type' => $post_types,
+				)
+			);
 		}
 		?>
 	</div>
