@@ -101,30 +101,31 @@ if ( is_admin() ) {
 	// Admin Links.
 	add_action( 'admin_menu', 'cpvg_menu_pages' );
 
+	/**
+	 * Summary: Loads scripts for the administrative panel.
+	 */
+	function cpvg_admin_scripts() {
+		// JavaScript.
+		wp_register_script( 'cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', false, null );
+		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null );
+		wp_register_script( 'cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null );
+		wp_register_script( 'cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null );
 
-	function cpvg_admin_scripts()
-	{
-		//JS
-		wp_register_script('cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', false, null);
-		// wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null);
-		wp_register_script('cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null);
-		wp_register_script('cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null);
-
-		wp_enqueue_script( 
+		wp_enqueue_script(
 			array(
-				'jquery-ui-draggable', 
-				'jquery-ui-droppable', 
+				'jquery-ui-draggable',
+				'jquery-ui-droppable',
 				'jquery-ui-sortable',
 				'jquery-ui-dialog',
 				'cpvg_flowplayer',
-				'cpvg_jquery_tmpl', 
-				'cpvg_knockout', 
-				'cpvg_pagination', 
+				'cpvg_jquery_tmpl',
+				'cpvg_knockout',
+				'cpvg_pagination',
 				'cpvg_functions',
 			)
 		);
 
-		// Necessary for Meta Boxes in List Views
+		// Necessary for Meta Boxes in List Views.
 		wp_enqueue_script(
 			array(
 				'common',
@@ -134,51 +135,54 @@ if ( is_admin() ) {
 		);
 	}
 
-	add_action('wp_enqueue_scripts', 'cpvg_admin_scripts');
+	add_action( 'wp_enqueue_scripts', 'cpvg_admin_scripts' );
 
-	//Action for ajax calls
-	add_action('wp_ajax_generate_preview', 'cpvg_generate_preview');
-	add_action('wp_ajax_save_layout', 'cpvg_save_layout');
-	add_action('wp_ajax_delete_layout', 'cpvg_delete_layout');
-	add_action('wp_ajax_get_post_view_data', 'cpvg_get_post_view_data');
-	add_action('wp_ajax_get_list_view_data', 'cpvg_get_list_view_data');
-	add_action('wp_ajax_create_postpage', 'cpvg_create_post_page');
+	// Action for ajax calls.
+	add_action( 'wp_ajax_generate_preview', 'cpvg_generate_preview' );
+	add_action( 'wp_ajax_save_layout', 'cpvg_save_layout' );
+	add_action( 'wp_ajax_delete_layout', 'cpvg_delete_layout' );
+	add_action( 'wp_ajax_get_post_view_data', 'cpvg_get_post_view_data' );
+	add_action( 'wp_ajax_get_list_view_data', 'cpvg_get_list_view_data' );
+	add_action( 'wp_ajax_create_postpage', 'cpvg_create_post_page' );
 
-	//LOAD CSS
-	add_action('admin_enqueue_scripts', 'cpvg_load_css');
+	// Load CSS.
+	add_action( 'admin_enqueue_scripts', 'cpvg_load_css' );
 } else {
-	function cpvg_scripts() 
-	{
-		// wp_register_script('cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array('jquery'), null);
-		wp_register_script('cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array('jquery'), null);
-		wp_register_script('cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array('jquery'), null);
+	/**
+	 * Summary: If NOT the administrative panel.
+	 */
+	function cpvg_scripts() {
+		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array( 'jquery' ), false, null );
+		wp_register_script( 'cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array( 'jquery' ), false, null );
+		wp_register_script( 'cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array( 'jquery' ), false, null );
 
 		wp_enqueue_script(
 			array(
-				// 'cpvg_flowplayer',
+				'cpvg_flowplayer',
 				'cpvg_pagination',
-				'cpvg_tablesorter'
+				'cpvg_tablesorter',
 			)
 		);
 	}
 
-	add_action('wp_enqueue_scripts', 'cpvg_scripts');
+	add_action( 'wp_enqueue_scripts', 'cpvg_scripts' );
 
-	//USED IN POST VIEWS
-	add_filter('the_content', 'cpvg_process_page', -999);
+	// Used in post views.
+	add_filter( 'the_content', 'cpvg_process_page', -999 );
 
-	//IF THE YOU ARE GETTING GARBAGE ON POST LISTING UNCOMMENT THE NEXT LINE
-	//add_filter('the_excerpt', 'cpvg_process_excerpt',-999);
+	/**
+	 * If you are getting garbage on post listing, uncomment the next line.
+	 */
+	// add_filter( 'the_excerpt', 'cpvg_process_excerpt',-999 );.
 
-	//USED IN LIST VIEWS
-	add_shortcode('cpvg_list', 'cpvg_process_list');
+	// Used in list views.
+	add_shortcode( 'cpvg_list', 'cpvg_process_list' );
 }
 
 /*
  * Create tables, deletes current tables to prevent version incompatibility
  */
-function cpvg_activation()
-{
+function cpvg_activation() {
 	cpvg_deactivation();
 	/**
 	 * @var wpdb $wpdb
@@ -186,7 +190,7 @@ function cpvg_activation()
 	global $wpdb, $table_prefix;
 
 	$wp_cpvg_table = $table_prefix . "cpvg_post_views";
-	if ($wpdb->get_var("show tables like '$wp_cpvg_table'") != $wp_cpvg_table) {
+	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'") != $wp_cpvg_table ) {
 		$sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`        int(11)      NOT NULL auto_increment,";
 		$sql0 .= "  `name` 	    varchar(255) NOT NULL default '', ";
@@ -194,12 +198,12 @@ function cpvg_activation()
 		$sql0 .= "  UNIQUE KEY `id` (`id`) ";
 		$sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
-		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-		dbDelta($sql0);
+		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		dbDelta( $sql0 );
 	}
 
 	$wp_cpvg_table = $table_prefix . "cpvg_list_views";
-	if ($wpdb->get_var("show tables like '$wp_cpvg_table'") != $wp_cpvg_table) {
+	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'" ) != $wp_cpvg_table ) {
 		$sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`       					int(11)      NOT NULL auto_increment,";
 		$sql0 .= "  `name` 	varchar(255) NOT NULL default '', ";
@@ -207,16 +211,15 @@ function cpvg_activation()
 		$sql0 .= "  UNIQUE KEY `id` (`id`) ";
 		$sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
-		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-		dbDelta($sql0);
+		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		dbDelta( $sql0 );
 	}
 }
 
-/*
- * Delete tables
+/**
+ * Summary: Delete tables
  */
-function cpvg_deactivation()
-{
+function cpvg_deactivation() {
 	global $wpdb, $table_prefix;
 	$wp_cpvg_table = $table_prefix . "cpvg_post_views";
 	$wpdb->query("DROP TABLE " . $wp_cpvg_table);
@@ -224,82 +227,103 @@ function cpvg_deactivation()
 	$wpdb->query("DROP TABLE " . $wp_cpvg_table);
 }
 
-/*
- * This method id required because the wp_register_style cause a RTL bug
+/**
+ * This method id required because the wp_register_style cause a RTL bug.
  */
-function cpvg_load_css()
-{
-	wp_register_style('cpvg_style', CPVG_PLUGIN_URL . 'cpvg_style.css');
-	wp_enqueue_style(array('wp-jquery-ui-dialog', 'cpvg_style'));
+function cpvg_load_css() {
+	wp_register_style( 'cpvg_style', CPVG_PLUGIN_URL . 'cpvg_style.css' );
+	wp_enqueue_style( array( 'wp-jquery-ui-dialog', 'cpvg_style' ) );
 }
 
-/*
-* Unless the post excerpt was defined by the user,
-* this function will return an part of content field to prevent
-* from garbage being displayed because of the the_content filter
-*/
-function cpvg_process_excerpt($content = '')
-{
+/**
+ * Unless the post excerpt was defined by the user,
+ * this function will return an part of content field to prevent
+ * from garbage being displayed because of the the_content filter.
+ */
+function cpvg_process_excerpt( $content = '' ) {
 	global $post;
 	$output = $post->post_excerpt;
-	if ($output != "") {
+	if ( $output != "" ) {
 		return $output;
 	} else {
-		return substr(strip_tags($post->post_content), 0, 200);
+		return substr( strip_tags( $post->post_content ), 0, 200 );
 	}
 }
 
-//Create links in the workpress admin
-function cpvg_menu_pages()
-{
-	add_menu_page('CPT View Generator', 'CPT View Generator', 'manage_options', 'cpvg_topmenu', 'cpvg_post_views');
-	add_submenu_page('cpvg_topmenu', 'Post Views', 'Post Views', 'manage_options', 'cpvg_topmenu', 'cpvg_post_views');
-	add_submenu_page('cpvg_topmenu', 'List Views', 'List Views', 'manage_options', 'cpvg_list_views', 'cpvg_list_views');
-	add_submenu_page('cpvg_topmenu', 'Help', 'Help', 'manage_options', 'cpvg_help1', 'cpvg_help');
+/**
+ * Summary: Create links in the workpress admin.
+ */
+function cpvg_menu_pages() {
+	add_menu_page( 'CPT View Generator', 'CPT View Generator', 'manage_options', 'cpvg_topmenu', 'cpvg_post_views' );
+	add_submenu_page( 'cpvg_topmenu', 'Post Views', 'Post Views', 'manage_options', 'cpvg_topmenu', 'cpvg_post_views' );
+	add_submenu_page( 'cpvg_topmenu', 'List Views', 'List Views', 'manage_options', 'cpvg_list_views', 'cpvg_list_views' );
+	add_submenu_page( 'cpvg_topmenu', 'Help', 'Help', 'manage_options', 'cpvg_help1', 'cpvg_help' );
 }
 
 /***************************************************** ADMIN WINDOWS ******************************************************/
 
-//Generate the list view admin window
-function cpvg_list_views()
-{
-	if (!current_user_can('manage_options')) {
-		wp_die('You do not have sufficient permissions to access this page.');
+/**
+ * Summary: Generate the list view admin window.
+ */
+function cpvg_list_views() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'You do not have sufficient permissions to access this page.' );
 	}
 
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
 
-	$meta_boxes_data = array('list_views' => 'List Views', 'fields' => 'Fields', 'parameters' => 'Parameters', 'finish' => 'Finish');
-	$post_types = array_diff_assoc(get_post_types(array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
-
-
-	foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
-		add_meta_box('cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default');
+	$meta_boxes_data = array(
+		'list_views' => 'List Views',
+		'fields' => 'Fields',
+		'parameters' => 'Parameters',
+		'finish' => 'Finish'
+	);
+	$post_types = array_diff_assoc( get_post_types(
+		array(
+			'_builtin' => false ),
+			'names',
+		),
+		array(
+			'content-type' => 'content-type',
+			'rw_content_type' => 'rw_content_type',
+			'rw_taxonomy' => 'rw_taxonomy',
+		)
+	);
+	foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
+		add_meta_box( 'cpvg-step-' . $meta_boxes_id, $meta_boxes_name, 'cvpg_listview_metabox', 'cpvg-' . $meta_boxes_id, 'normal', 'default' );
 	}
 	?>
 
-	<div id='cpvg-wrap' class='wrap cpvg-list-views metabox-holder'>
-		<div id='icon-edit-pages' class='icon32'><br></div>
+	<div id="cpvg-wrap" class="wrap cpvg-list-views metabox-holder">
+		<div id="icon-edit-pages" class="icon32"><br /></div>
 		<h2>List Views</h2>
 		<?php
-		foreach ($meta_boxes_data as $meta_boxes_id => $meta_boxes_name) {
-			do_meta_boxes('cpvg-' . $meta_boxes_id, 'normal', array("metabox" => $meta_boxes_id, "post_type" => $post_types));
+		foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
+			do_meta_boxes(
+				'cpvg-' . $meta_boxes_id,
+				'normal',
+				array( 
+					'metabox' => $meta_boxes_id,
+					'post_type' => $post_types,
+				)
+			);
 		}
 		?>
 	</div>
 <?php
 }
 
-//Generate the list view admin metaboxes that compose the list view admin window
-function cvpg_listview_metabox($data)
-{
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
+/**
+ * Summary: Generate the list view admin metaboxes that compose the list view admin window.
+ */
+function cvpg_listview_metabox( $data ) {
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
 
 	global $wpdb;
-	$db_data = cpvg_get_dbfields_names("list");
+	$db_data = cpvg_get_dbfields_names( 'list' );
 
-	switch ($data["metabox"]) {
+	switch ( $data['metabox'] ) {
 		case 'list_views':
 			$template_files = cpvg_capitalize_array_values(cpvg_get_extensions_files("php", CPVG_LIST_TEMPLATE_DIR));
 			$rows_data = $wpdb->get_results("SELECT " . $db_data['id_field'] . " ," . $db_data['name_field'] . " FROM " . $db_data['table_name']);
