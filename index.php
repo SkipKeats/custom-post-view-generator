@@ -265,13 +265,12 @@ function cpvg_menu_pages() {
 /**
  * Summary: Generate the list view admin window.
  */
-function cpvg_list_views()
-{
-	if (!current_user_can('manage_options')) {
-		wp_die('You do not have sufficient permissions to access this page.');
+function cpvg_list_views() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'You do not have sufficient permissions to access this page.' );
 	}
 
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_list_views.html";
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_list_views.html';
 
 	$meta_boxes_data = array('list_views' => 'List Views', 'fields' => 'Fields', 'parameters' => 'Parameters', 'finish' => 'Finish');
 	$post_types = array_diff_assoc(get_post_types(array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
