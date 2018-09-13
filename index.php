@@ -303,7 +303,7 @@ function cpvg_list_views() {
 		}
 		?>
 	</div>
-<?php
+	<?php
 }
 
 /**
@@ -318,19 +318,19 @@ function cvpg_listview_metabox( $data ) {
 
 	switch ( $data['metabox'] ) {
 		case 'list_views':
-			$template_files = cpvg_capitalize_array_values(cpvg_get_extensions_files("php", CPVG_LIST_TEMPLATE_DIR));
-			$rows_data = $wpdb->get_results("SELECT " . $db_data['id_field'] . " ," . $db_data['name_field'] . " FROM " . $db_data['table_name']);
+			$template_files = cpvg_capitalize_array_values( cpvg_get_extensions_files( 'php', CPVG_LIST_TEMPLATE_DIR ) );
+			$rows_data = $wpdb->get_results( 'SELECT ' . $db_data['id_field'] . ' ,' . $db_data['name_field'] . ' FROM ' . $db_data['table_name'] );
 
 			$list_views = array();
-			foreach ($rows_data as $field_value) {
+			foreach ( $rows_data as $field_value ) {
 				$list_views[] = $field_value->$db_data['name_field'];
 			}
 			?>
 			<script type='text/javascript'>
 
-				viewModel.setData('siteurl', '<?php echo home_url(""); ?>');
-				viewModel.setData('view_type', 'list');
-				viewModel.setData('available_template_files', <?php echo json_encode($template_files); ?>, 'assocArray');
+				viewModel.setData( 'siteurl', '<?php echo home_url( "" ); ?>' );
+				viewModel.setData( 'view_type', 'list' );
+				viewModel.setData( 'available_template_files', <?php echo json_encode($template_files); ?>, 'assocArray');
 				viewModel.setData('available_list_views', <?php echo json_encode($list_views); ?>, 'arrayObservables');
 
 			</script>
@@ -338,10 +338,10 @@ function cvpg_listview_metabox( $data ) {
 
 			break;
 		case 'fields':
-			if (!isset($data["post_types"])) {
-				$data["post_types"] = array();
+			if ( ! isset( $data["post_types"] ) ) {
+				$data['post_types'] = array();
 			}
-			cpvg_fieldtypes_form($data["post_types"], "list");
+			cpvg_fieldtypes_form( $data['post_types'], 'list' );
 			break;
 	}
 	echo "<div data-bind=\"template: { name:'cpvg_" . $data["metabox"] . "' }\"></div>";
