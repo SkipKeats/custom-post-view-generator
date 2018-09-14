@@ -389,21 +389,23 @@ function cpvg_post_views() {
 			echo 'CPVG Parameter Dir: ' . CPVG_PARAMETER_DIR . '<br />';
 			echo 'CPVG Post Template URL: ' . CPVG_POST_TEMPLATE_URL . '<br />';
 		?>
+
 		<?php
-		cpvg_fieldtypes_form($post_types, 'post');
+		cpvg_fieldtypes_form( $post_types, 'post' );
 		echo "<div data-bind=\"template:'cpvg_fieldtypes_form'\"></div>";
 		?>
 	</div>
-<?php
+	<?php
 }
 
-//Generate fieldtypes form used in the post and list views admin pages
-function cpvg_fieldtypes_form($post_types, $view_type = 'post')
-{
-	require_once CPVG_ADMIN_TEMPLATE_DIR . "/cpvg_fieldtypes_form.html";
+/**
+ * SUmmary: Generate fieldtypes form used in the post and list views admin pages.
+ */
+function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
+	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
 	//require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
-	//require_once includes_url('link-template.php');
-	require_once WPINC . "/link-template.php";
+	require_once includes_url('link-template.php');
+	//require_once WPINC . "/link-template.php";
 
 	?>
 	<script type='text/javascript'>
