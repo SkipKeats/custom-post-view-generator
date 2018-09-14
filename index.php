@@ -404,8 +404,9 @@ function cpvg_post_views() {
 function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
 	//require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
-	require_once includes_url('link-template.php');
-	//require_once WPINC . "/link-template.php";
+	//require_once includes_url( 'link-template.php' );
+    //require_once WPINC . "/link-template.php";
+    require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php'
 
 	?>
 	<script type='text/javascript'>
