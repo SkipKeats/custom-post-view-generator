@@ -448,27 +448,27 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 
 		// Mandatory.
 		<?php
-			if ( $view_type == 'post' ) {
-				echo "viewModel.setData('view_type','" . $view_type . "');\n";
-				echo "viewModel.setData('siteurl','" . home_url("") . "');\n";
-				echo "viewModel.setData('available_template_files'," . json_encode( $template_files ) . ",'assocArray');\n";
-			}
+		if ( $view_type == 'post' ) {
+			echo "viewModel.setData('view_type','" . $view_type . "');\n";
+			echo "viewModel.setData('siteurl','" . home_url("") . "');\n";
+			echo "viewModel.setData('available_template_files'," . json_encode( $template_files ) . ",'assocArray');\n";
+		}
 
-			if(in_array("acf",array_keys($object_types))){
-				echo "viewModel.setData('acf_enabled','true');\n";
-			}else{
-				echo "viewModel.setData('acf_enabled','false');\n";
-			}
+		if ( in_array( 'acf', array_keys( $object_types ) ) ) {
+			echo "viewModel.setData('acf_enabled','true');\n";
+		} else {
+			echo "viewModel.setData('acf_enabled','false');\n";
+		}
 
-			$js_posttypes = array_merge($object_types,array('post'=>'Post','page'=>'Page'));
-			$js_posttypes = array_diff_assoc($js_posttypes, array('acf'=>'Acf'));
+		$js_posttypes = array_merge( $object_types, array( 'post' => 'Post', 'page' => 'Page' ) );
+		$js_posttypes = array_diff_assoc( $js_posttypes, array( 'acf' => 'Acf' ) );
 
-			echo "viewModel.setData('available_post_types',".json_encode($js_posttypes).",'assocArray');\n";
-			echo "viewModel.setData('available_custom_fields',".json_encode(array_merge($objects_data,array('field_sections'=>array_keys($objects_data)))).",'json');\n";
-			echo "viewModel.setAvailableFieldTypes(".cpvg_load_fieldtypes(true).");\n";
+		echo "viewModel.setData('available_post_types'," . json_encode( $js_posttypes ) . ",'assocArray');\n";
+		echo "viewModel.setData('available_custom_fields'," . json_encode( array_merge( $objects_data, array( 'field_sections' => array_keys( $objects_data ) ) ) ) . ",'json');\n";
+		echo "viewModel.setAvailableFieldTypes(" . cpvg_load_fieldtypes(true) . ");\n";
 
-			//DATAFIELDS
-			$datafields_files = cpvg_get_extensions_files("php",CPVG_DATAFIELDS_DIR);
+			// Data fields.
+			$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
 			$objects_data = array();
 
 			foreach($datafields_files as $datafield_file => $datafield_name){
