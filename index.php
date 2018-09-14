@@ -373,7 +373,11 @@ function cpvg_post_views() {
 			array( '_builtin' => false ),
 			'names'
 		),
-		array()
+		array(
+			'content-type' => 'content-type',
+			'rw_content_type' => 'rw_content_type',
+			'rw_taxonomy' => 'rw_taxonomy',
+		)
 	);
 
 	?>
