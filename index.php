@@ -357,7 +357,9 @@ function cpvg_post_views() {
 
 	$post_types = array_diff_assoc(
 		get_post_types(
-			array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
+			array(
+				'_builtin' => false,
+			), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
 	?>
 	<div id='cpvg-wrap' class='wrap cpvg-post-views'>
 		<div id='icon-edit-pages' class='icon32'><br></div>
