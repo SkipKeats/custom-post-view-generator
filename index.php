@@ -405,16 +405,25 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	require_once CPVG_ADMIN_TEMPLATE_DIR . '/cpvg_fieldtypes_form.html';
 	//require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
 	//require_once includes_url( 'link-template.php' );
-    //require_once WPINC . "/link-template.php";
-    //require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php'
+	//require_once WPINC . "/link-template.php";
+	//require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php'
 
 	?>
 	<script type='text/javascript'>
 		<?php
-			//List of Template Files
-			$template_files = cpvg_capitalize_array_values(cpvg_get_extensions_files("php",CPVG_POST_TEMPLATE_DIR));
+			// List of Template Files.
+			$template_files = cpvg_capitalize_array_values( cpvg_get_extensions_files( 'php', CPVG_POST_TEMPLATE_DIR ) );
 
-			$object_types = array_diff_assoc(get_post_types(array('_builtin'=>false)),array('content-type'=>'content-type','rw_content_type'=>'rw_content_type','rw_taxonomy'=>'rw_taxonomy'));
+			$object_types = array_diff_assoc(
+				get_post_types(
+					array( '_builtin' => false )
+				),
+				array(
+					'content-type' => 'content-type',
+					'rw_content_type' => 'rw_content_type',
+					'rw_taxonomy' => 'rw_taxonomy',
+				)
+			);
 			$objects_data = array();
 			//POST VIEWS
 			foreach ($object_types  as $post_type) {
