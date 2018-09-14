@@ -360,8 +360,7 @@ function cpvg_post_views() {
 			array(
 				'_builtin' => false,
 			),
-			'names',
-		), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
+			'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
 	?>
 	<div id='cpvg-wrap' class='wrap cpvg-post-views'>
 		<div id='icon-edit-pages' class='icon32'><br></div>
