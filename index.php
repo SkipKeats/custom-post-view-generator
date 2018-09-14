@@ -437,13 +437,13 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 					}
 				}
 			}
-				if(post_type_supports($post_type,'editor')){
-					$object_data[] = 'Content Editor';
-				}
-				$objects_data[$post_type] = $object_data;
+			if ( post_type_supports( $post_type, 'editor' ) ) {
+				$object_data[] = 'Content Editor';
 			}
-			//List of Custom Post Types
-			$object_types = cpvg_capitalize_array_values($object_types);
+				$objects_data[ $post_type ] = $object_data;
+		}
+		// List of Custom Post Types.
+		$object_types = cpvg_capitalize_array_values( $object_types );
 		?>
 
 		//MANDATORY
