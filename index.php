@@ -446,13 +446,14 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 		$object_types = cpvg_capitalize_array_values( $object_types );
 		?>
 
-		//MANDATORY
+		// Mandatory.
 		<?php
-			if($view_type == "post"){
-				echo "viewModel.setData('view_type','".$view_type."');\n";
-				echo "viewModel.setData('siteurl','".home_url("")."');\n";
-				echo "viewModel.setData('available_template_files',".json_encode($template_files).",'assocArray');\n";
+			if ( $view_type == 'post' ) {
+				echo "viewModel.setData('view_type','" . $view_type . "');\n";
+				echo "viewModel.setData('siteurl','" . home_url("") . "');\n";
+				echo "viewModel.setData('available_template_files'," . json_encode( $template_files ) . ",'assocArray');\n";
 			}
+
 			if(in_array("acf",array_keys($object_types))){
 				echo "viewModel.setData('acf_enabled','true');\n";
 			}else{
