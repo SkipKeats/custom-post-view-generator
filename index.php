@@ -369,7 +369,9 @@ function cpvg_post_views() {
 	 * );
 	 */
 	$post_types = array_diff_assoc(
-		get_post_types(),
+		get_post_types(
+			array( '_builtin' => false )
+		),
 		array()
 	);
 
