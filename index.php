@@ -347,11 +347,12 @@ function cvpg_listview_metabox( $data ) {
 	echo "<div data-bind=\"template: { name:'cpvg_" . $data["metabox"] . "' }\"></div>";
 }
 
-//Generates a post views admin window
-function cpvg_post_views()
-{
-	if (!current_user_can('manage_options')) {
-		wp_die('You do not have sufficient permissions to access this page.');
+/**
+ * Summary: Generates a post views admin window.
+ */
+function cpvg_post_views() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'You do not have sufficient permissions to access this page.' );
 	}
 
 	$post_types = array_diff_assoc(get_post_types(array('_builtin' => false), 'names'), array('content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy'));
