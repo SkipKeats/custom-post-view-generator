@@ -425,17 +425,18 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 				)
 			);
 			$objects_data = array();
-			//POST VIEWS
-			foreach ($object_types  as $post_type) {
-				$custom_fields_data = cpvg_get_customfields($post_type);
-				if(!empty($custom_fields_data)){
-					$object_data = array();
-					foreach($custom_fields_data  as $field_id=>$field_name){
-						if(!empty($field_name)){
-							$object_data[] = $field_name;
-						}
+
+			// Post Views.
+		foreach ( $object_types as $post_type ) {
+			$custom_fields_data = cpvg_get_customfields( $post_type );
+			if ( ! empty( $custom_fields_data ) ) {
+				$object_data = array();
+				foreach ( $custom_fields_data as $field_id => $field_name ) {
+					if ( ! empty( $field_name ) ) {
+						$object_data[] = $field_name;
 					}
 				}
+			}
 				if(post_type_supports($post_type,'editor')){
 					$object_data[] = 'Content Editor';
 				}
