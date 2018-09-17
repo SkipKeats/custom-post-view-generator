@@ -1123,51 +1123,58 @@ function cpvg_get_list_view_data() {
 }
 
 /****************************************** Util **************************************************/
+/**
+ * Summary: Generates a random text value.
+ */
 function cpvg_random_text_value()
 {
-	$codelenght = 8;
-	$newcode = '';
-	while (strlen($newcode) < $codelenght) {
+	$codelength = 8;
+	$newcode    = '';
+	while ( strlen($newcode) < $codelength) {
 		$x = 1;
 		$y = 4;
-		$part = rand($x, $y);
+		$part = rand( $x, $y );
 
-		if ($part == 1) {
+		if ( $part == 1 ) {
 			$a = 48;
 			$b = 57;
-		} // Numbers
-		if ($part == 2) {
+		} // Numbers.
+		if ( $part == 2 ) {
 			$a = 65;
 			$b = 90;
-		} // UpperCase
-		if ($part == 3) {
+		} // UpperCase.
+		if ( $part == 3 ) {
 			$a = 97;
 			$b = 122;
-		} // LowerCase
-		//if($part==4){$a=32;$b=31;} // Space
-
-		$code_part = chr(rand($a, $b));
-		$newcode .= $code_part;
+		} // LowerCase.
+		// if ( $part==4 ){$a=32;$b=31;} // Space.
+		$code_part = chr( rand( $a, $b ) );
+		$newcode  .= $code_part;
 	}
 	return $newcode;
 }
 
-function cpvg_sanitize_title_with_underscores($string)
-{
-	return str_replace("-", "_", sanitize_title_with_dashes($string));
+/**
+ * Summary: Sanitize title with underscores
+ */
+function cpvg_sanitize_title_with_underscores( $string ) {
+	return str_replace( '-', '_', sanitize_title_with_dashes( $string ) );
 }
 
-function cpvg_get_between($input, $start, $end)
-{
-	$substr = substr($input, strlen($start) + strpos($input, $start), (strlen($input) - strpos($input, $end)) * (-1));
+/**
+ * Summary: Get between.
+ */
+function cpvg_get_between( $input, $start, $end ) {
+	$substr = substr( $input, strlen( $start ) + strpos( $input, $start ), ( strlen( $input ) - strpos( $input, $end ) ) * ( -1 ) );
 	return $substr;
 }
 
-
-function cpvg_capitalize_array_values($array)
-{
-	foreach ($array as $key => $value) {
-		$array[$key] = ucwords($value);
+/**
+ * Summary: Capitalize array values.
+ */
+function cpvg_capitalize_array_values( $array ) {
+	foreach ( $array as $key => $value ) {
+		$array[ $key ] = ucwords( $value );
 	}
 	return $array;
 }
