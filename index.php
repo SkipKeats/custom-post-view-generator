@@ -557,17 +557,18 @@ function cpvg_load_fieldtypes( $output_json = false ) {
 	return $types_options;
 }
 
-//Load the extension files - templates, datafields
-function cpvg_get_extensions_files($file_type = "php", $dir = CPVG_POST_TEMPLATE_DIR)
-{
+/**
+ * Summary: Load the extension files - templates, datafields.
+ */
+function cpvg_get_extensions_files( $file_type = 'php', $dir = CPVG_POST_TEMPLATE_DIR ) {
 	$files = array();
-	$find_strings = array("-", "_", "cpvg");
-	$replace_strings = array(" ", " ", " ");
+	$find_strings = array( '-', '_', 'cpvg' );
+	$replace_strings = array( ' ', ' ', ' ' );
 
-	foreach (glob($dir . '/*.' . $file_type) as $file) {
-		$files[preg_replace("/\\.[^.\\s]{3,4}$/", "", $file)] = trim(preg_replace("/\\.[^.\\s]{3,4}$/", "", str_replace($find_strings, $replace_strings, basename($file))));
+	foreach ( glob( $dir . '/*.' . $file_type ) as $file ) {
+		$files[ preg_replace( '/\\.[^.\\s]{3,4}$/', '', $file ) ] = trim( preg_replace( '/\\.[^.\\s]{3,4}$/', '', str_replace( $find_strings, $replace_strings, basename( $file ) ) ) );
 	}
-	asort($files);
+	asort( $files );
 
 	return $files;
 }
