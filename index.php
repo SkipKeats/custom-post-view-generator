@@ -506,21 +506,24 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 
 /************************************************* LOAD FILES/CLASSES ************************************************************************/
 
-//Load the plugincode files - files necessary to extract the fields created by a custom post type field
-function cpvg_get_pluginscode_files()
-{
+/**
+ * Summary: Load the plugincode files - files necessary to extract the fields created by a custom post type field.
+ */
+function cpvg_get_pluginscode_files() {
 	$find_strings = array();
 	$replace_strings = array();
 	$files = array();
+	$handle = opendir( CPVG_PLUGINSCODE_DIR );
+	$file = readdir( $handle );
 
-	if ($handle = opendir(CPVG_PLUGINSCODE_DIR)) {
-		while (false !== ($file = readdir($handle))) {
-			$explode_result = explode(".", $file);
-			if (end($explode_result) == "php") {
-				$files[] = preg_replace("/\\.[^.\\s]{3,4}$/", "", str_replace($find_strings, $replace_strings, $file));
+	if ( $handle ) {
+		while ( false !== ( $file ) ) {
+			$explode_result = explode( '.', $file );
+			if ( end( $explode_result ) == 'php') {
+				$files[] = preg_replace( '/\\.[^.\\s]{3,4}$/', '', str_replace( $find_strings, $replace_strings, $file ) );
 			}
 		}
-		closedir($handle);
+		closedir( $handle );
 	}
 
 	return $files;
