@@ -921,49 +921,67 @@ function cpvg_generate_preview() {
 }
 
 /***************************************************** ADMIN ACTIONS *****************************************************/
-//Saves/Update the layout for the list or post view
-function cpvg_save_layout()
-{
-	if ( isset($_POST['view_type']) && isset($_POST['view_value'])) {
-		if (!empty($_POST['view_value'])) {
-			$layout_data = array();
+/**
+ * Summary: Saves/Update the layout for the list or post view.
+ */
+function cpvg_save_layout() {
+	if ( isset( $_POST['view_type'] ) && isset( $_POST['view_value'] ) ) {
+		if ( ! empty( $_POST['view_value'] ) ) {
+			$layout_data                  = array();
 			$layout_data['template_file'] = $_POST['template'];
-			$layout_data['fields'] = $_POST['fields'];
-			$layout_data['param'] = $_POST['param'];
+			$layout_data['fields']        = $_POST['fields'];
+			$layout_data['param']         = $_POST['param'];
 
-			if (isset($_POST['post_type'])) {
+			if ( isset( $_POST['post_type'] ) ) {
 				$layout_data['post_type'] = $_POST['post_type'];
 			}
 
 			global $table_prefix, $wpdb;
-			$db_data = cpvg_get_dbfields_names($_POST['view_type']);
-			//check_database($db_data['table_name']);
+			$db_data = cpvg_get_dbfields_names( $_POST['view_type'] );
+			// Check_database($db_data['table_name']).
+			$cpvg_id = $wpdb->get_var( 'SELECT id FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['access_field'] . " = '" . $_POST['view_value'] . "'" );
+			$processed_data = str_replace( array( "\\\'" ), array( "'" ), json_encode( $layout_data ) );
 
-			$cpvg_id = $wpdb->get_var("SELECT id FROM " . $db_data['table_name'] . " WHERE " . $db_data['access_field'] . " = '" . $_POST['view_value'] . "'");
-			$processed_data = str_replace(array("\\\'"), array("'"), json_encode($layout_data));
+			if ( $cpvg_id ) {
+				$rows_affected = $wpdb->update( 
+					$db_data['table_name'],
+					array(
+						$db_data['options_field'] => $processed_data
+					),
+					array(
+						'id' => $cpvg_id
+					)
+				);
 
-			if ($cpvg_id) {
-
-				$rows_affected = $wpdb->update($db_data['table_name'], array($db_data['options_field'] => $processed_data),
-					array('id' => $cpvg_id));
-
-				if (isset($_POST['new_view_value'])) {
-					$rows_affected = $wpdb->update($db_data['table_name'], array($db_data['access_field'] => $_POST['new_view_value']),
-						array('id' => $cpvg_id));
+				if ( isset( $_POST['new_view_value'] ) ) {
+					$rows_affected = $wpdb->update(
+						$db_data['table_name'],
+						array(
+							$db_data['access_field'] => $_POST['new_view_value']
+						),
+						array(
+							'id' => $cpvg_id
+						)
+					);
 				}
 
-				print "Layout Updated.";
+				print 'Layout Updated.';
 			} else {
-				if (isset($_POST['new_view_value'])) {
+				if ( isset( $_POST['new_view_value'] ) ) {
 					$_POST['view_value'] = $_POST['new_view_value'];
 				}
 
-				$rows_affected = $wpdb->insert($db_data['table_name'], array($db_data['name_field'] => $_POST['view_value'],
-					$db_data['options_field'] => $processed_data));
-				print "Layout Saved.";
+				$rows_affected = $wpdb->insert(
+					$db_data['table_name'],
+					array(
+						$db_data['name_field'] => $_POST['view_value'],
+						$db_data['options_field'] => $processed_data
+					)
+				);
+				print 'Layout Saved.';
 			}
 		} else {
-			//print "No Post Type Was Selected.";
+			print 'No Post Type Was Selected.';
 		}
 	}
 	exit;
