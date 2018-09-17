@@ -529,27 +529,28 @@ function cpvg_get_pluginscode_files() {
 	return $files;
 }
 
-//Load the fieldtypes files
-function cpvg_load_fieldtypes($output_json = false)
-{
+/**
+ * Summary: Load the fieldtypes files.
+ */
+function cpvg_load_fieldtypes( $output_json = false ) {
 	$types_options = array();
 
-	foreach (glob(CPVG_FIELDTYPES_DIR . '/*.php') as $php_file) {
-		$files[] = preg_replace("/\\.[^.\\s]{3,4}$/", '', basename($php_file));
+	foreach ( glob( CPVG_FIELDTYPES_DIR . '/*.php' ) as $php_file ) {
+		$files[] = preg_replace( '/\\.[^.\\s]{3,4}$/', '', basename( $php_file ) );
 	}
-	asort($files);
+	asort( $files );
 
-	foreach ($files as $fieldtype_name) {
-		include_once CPVG_FIELDTYPES_DIR . "/" . $fieldtype_name . ".php";
+	foreach ( $files as $fieldtype_name ) {
+		include_once CPVG_FIELDTYPES_DIR . '/' . $fieldtype_name . '.php';
 		$fieldtype_object = new $fieldtype_name();
-		$types_options = array_merge($types_options, $fieldtype_object->adminProperties());
+		$types_options = array_merge( $types_options, $fieldtype_object->adminProperties() );
 	}
 
-	if ($output_json) {
-		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-			$types_options = json_encode($types_options);
+	if ( $output_json ) {
+		if ( version_compare( PHP_VERSION, '5.3.0', '<' ) ) {
+			$types_options = json_encode( $types_options );
 		} else {
-			$types_options = json_encode($types_options, JSON_HEX_TAG);
+			$types_options = json_encode( $types_options, JSON_HEX_TAG );
 		}
 	}
 
