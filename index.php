@@ -465,42 +465,42 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 
 		echo "viewModel.setData('available_post_types'," . json_encode( $js_posttypes ) . ",'assocArray');\n";
 		echo "viewModel.setData('available_custom_fields'," . json_encode( array_merge( $objects_data, array( 'field_sections' => array_keys( $objects_data ) ) ) ) . ",'json');\n";
-		echo "viewModel.setAvailableFieldTypes(" . cpvg_load_fieldtypes(true) . ");\n";
+		echo 'viewModel.setAvailableFieldTypes(' . cpvg_load_fieldtypes(true) . ");\n";
 
-			// Data fields.
-			$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
-			$objects_data = array();
+		// Data fields.
+		$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
+		$objects_data = array();
 
-			foreach($datafields_files as $datafield_file => $datafield_name){
-				require_once CPVG_DATAFIELDS_DIR."/".$datafield_file.".php";
-				$datafield_object = new $datafield_file();
+		foreach ( $datafields_files as $datafield_file => $datafield_name ) {
+			require_once CPVG_DATAFIELDS_DIR . '/' . $datafield_file . '.php';
+			$datafield_object = new $datafield_file();
 
-				$objects_data = array_merge_recursive($objects_data,$datafield_object->adminProperties());
-				$object_types[str_replace("cpvg_","",$datafield_file)] = ucwords(str_replace("cpvg_","",$datafield_file));
-			}
+			$objects_data = array_merge_recursive( $objects_data, $datafield_object->adminProperties() );
+			$object_types[ str_replace( 'cpvg_', '', $datafield_file ) ] = ucwords( str_replace( 'cpvg_', '', $datafield_file ) );
+		}
 
-			if($view_type == "list"){
-				$parameters_files = cpvg_get_extensions_files("php",CPVG_PARAMETER_DIR);
+		if ( 'list' == $view_type ) {
+			$parameters_files = cpvg_get_extensions_files( 'php', CPVG_PARAMETER_DIR );
 
-				foreach(array('filter','order','pagination','usersorting') as $param_name){
-					$filter_data = array();
-					foreach($parameters_files as $parameters_file => $parameters_name){
-						require_once CPVG_PARAMETER_DIR."/".$parameters_file.".php";
-						$parameter_object = new $parameters_file();
-						$filter_data = array_merge_recursive($filter_data,$parameter_object->getParameterData($param_name));
-					}
-					echo "viewModel.parseParamConfig('".$param_name."',".json_encode($filter_data).");\n";
+			foreach ( array( 'filter', 'order', 'pagination', 'usersorting' ) as $param_name ) {
+				$filter_data = array();
+				foreach ( $parameters_files as $parameters_file => $parameters_name ) {
+					require_once CPVG_PARAMETER_DIR . '/' . $parameters_file . '.php';
+					$parameter_object = new $parameters_file();
+					$filter_data = array_merge_recursive( $filter_data, $parameter_object->getParameterData( $param_name ) );
 				}
+				echo "viewModel.parseParamConfig('" . $param_name . "'," . json_encode( $filter_data ) . ");\n";
 			}
+		}
 
-			$cvpg_datafield_settings = $objects_data['cvpg_datafield_extra_data'][0];
-			echo "viewModel.setData('available_extra_data',".json_encode($cvpg_datafield_settings).",'');\n";
+		$cvpg_datafield_settings = $objects_data['cvpg_datafield_extra_data'][0];
+		echo "viewModel.setData('available_extra_data'," . json_encode( $cvpg_datafield_settings ) . ",'');\n";
 
-			$objects_data = array_diff_assoc($objects_data, array('cvpg_datafield_extra_data'=>$cvpg_datafield_settings));
-			echo "viewModel.setData('available_fields',".json_encode(array_merge($objects_data,array('field_sections'=>array_keys($objects_data)))).",'json');\n";
+		$objects_data = array_diff_assoc( $objects_data, array( 'cvpg_datafield_extra_data' => $cvpg_datafield_settings ) );
+		echo "viewModel.setData('available_fields'," . json_encode( array_merge( $objects_data, array( 'field_sections' => array_keys( $objects_data ) ) ) ) . ",'json');\n";
 		?>
 	</script>
-<?php
+	<?php
 
 }
 
