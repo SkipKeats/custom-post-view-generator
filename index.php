@@ -854,7 +854,7 @@ function cpvg_process_data( $data = null, $external_template_processing = false 
 						}
 					}
 					// Custom Post Type.
-				} else if ( isset( $data['datafield_objects'][ $field_data ['section'] ] ) ) {
+				} elseif ( isset( $data['datafield_objects'][ $field_data ['section'] ] ) ) {
 					// Other Section: POST, USER, ETC.
 					if ( ! isset( $field_data['extra_options'] ) ) {
 						$field_data['extra_options'] = null;
@@ -975,7 +975,7 @@ function cpvg_save_layout() {
 					$db_data['table_name'],
 					array(
 						$db_data['name_field'] => $_POST['view_value'],
-						$db_data['options_field'] => $processed_data
+						$db_data['options_field'] => $processed_data,
 					)
 				);
 				print 'Layout Saved.';
@@ -987,67 +987,69 @@ function cpvg_save_layout() {
 	exit;
 }
 
-//Deletes a layput
-function cpvg_delete_layout()
-{
-	if (isset($_POST['view_value'])) {
-		if (!empty($_POST['view_value'])) {
+/**
+ * Summary: Deletes a layput.
+ */
+function cpvg_delete_layout() {
+	if ( isset( $_POST['view_value'] ) ) {
+		if ( ! empty( $_POST['view_value'] ) ) {
 			global $table_prefix, $wpdb;
 
-			$db_data = cpvg_get_dbfields_names($_POST['view_type']);
-			$result = $wpdb->query("DELETE FROM " . $db_data['table_name'] . " WHERE " . $db_data['access_field'] . " = '" . $_POST['view_value'] . "'");
+			$db_data = cpvg_get_dbfields_names( $_POST['view_type'] );
+			$result = $wpdb->query( 'DELETE FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['access_field'] . " = '" . $_POST['view_value'] . "'" );
 
-			if ($result) {
-				print "Layout Deleted.";
+			if ( $result ) {
+				print 'Layout Deleted.';
 			} else {
-				print "ERROR: Layout not deleted.";
+				print 'ERROR: Layout not deleted.';
 			}
 		} else {
-			print "No Post Type Was Selected.";
+			print 'No Post Type Was Selected.';
 		}
 	}
 	exit;
 }
 
-//Create a page or post for the list view
-function cpvg_create_post_page()
-{
-	if ($_POST['name'] != "") {
+/**
+ * Summary: Create a page or post for the list view.
+ */
+function cpvg_create_post_page() {
+	if ( $_POST['name'] != '' ) {
 		$post_data = array(
-			'post_title' => $_POST['name'],
+			'post_title'   => $_POST['name'],
 			'post_content' => "[cpvg_list name='" . $_POST['list_view_name'] . "']",
-			'post_status' => "publish",
-			'post_type' => $_POST['object_type']
+			'post_status'  => 'publish',
+			'post_type'    => $_POST['object_type']
 		);
 	}
 
-	if (@wp_insert_post($post_data)) {
-		echo ucwords($_POST['object_type']) . " created.\n";
+	if ( @wp_insert_post( $post_data ) ) {
+		echo ucwords( $_POST['object_type'] ) . ' created.\n';
 	} else {
-		echo "ERROR: " . ucwords($_POST['object_type']) . " not created.\n";
+		echo 'ERROR: ' . ucwords($_POST['object_type']) . ' not created.\n';
 	}
 }
 
 /*********************************** ADMIN PAGE HTML GENERATION ***********************************/
-//Generates the help page from the readme.txt
-function cpvg_help()
-{
-	if (!current_user_can('manage_options')) {
-		wp_die('You do not have sufficient permissions to access this page.');
+/**
+ * Summary: Generates the help page from the readme.txt.
+ */
+function cpvg_help() {
+	if ( ! current_user_can( 'manage_options') ) {
+		wp_die( 'You do not have sufficient permissions to access this page.' );
 	}
 
-	$readme_contents = file_get_contents(CPVG_PLUGIN_DIR . '/readme.txt');
-
 	require_once CPVG_PLUGIN_DIR . '/parse-readme.php';
-	$r = new Automattic_Readme;
-	$readme = $r->parse_readme_contents($readme_contents);
+	$readme_contents = file_get_contents( CPVG_PLUGIN_DIR . '/readme.txt' );
+	$r               = new Automattic_Readme();
+	$readme          = $r->parse_readme_contents( $readme_contents );
 
-	echo "<div id='cvpg-admin-help'>";
-	echo "<h3>Description</h3>" . $readme['sections']['description'];
-	echo str_replace("h4", "h3", substr($readme['sections']['installation'], strpos($readme['sections']['installation'], '<h4>Instructions</h4>'), -1)) . ">";
-	echo $readme["remaining_content"];
+	echo '<div id="cvpg-admin-help">';
+	echo '<h3>Description</h3>' . $readme['sections']['description'];
+	echo str_replace( 'h4', 'h3', substr( $readme['sections']['installation'], strpos( $readme['sections']['installation'], '<h4>Instructions</h4>'), -1 ) ) . '>';
+	echo $readme['remaining_content'];
 	echo '<h3>Frequently Asked Questions</h3>' . $readme['sections']['frequently_asked_questions'];
-	echo "</div>";
+	echo '</div>';
 }
 
 /****************************************** MISC **************************************************/
