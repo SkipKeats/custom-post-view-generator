@@ -575,17 +575,18 @@ function cpvg_get_extensions_files( $file_type = 'php', $dir = CPVG_POST_TEMPLAT
 
 /*********************************** DATA GETTERS *************************************************************/
 
-//Retrieves all the existing custom post fields using the correspodent pluginscode file
-function cpvg_get_customfields($custom_post_type)
-{
+/**
+ * Summary: Retrieves all the existing custom post fields using the correspodent pluginscode file.
+ */
+function cpvg_get_customfields( $custom_post_type ) {
 	$pluginfiles = cpvg_get_pluginscode_files();
 
-	foreach ($pluginfiles as $pluginfile_name) {
-		include_once CPVG_PLUGINSCODE_DIR . "/" . $pluginfile_name . ".php";
+	foreach ( $pluginfiles as $pluginfile_name ) {
+		include_once CPVG_PLUGINSCODE_DIR . '/' . $pluginfile_name . '.php';
 
 		$pluginfile_object = new $pluginfile_name();
-		if ($pluginfile_object->isEnabled()) {
-			return $pluginfile_object->getCustomfields($custom_post_type);
+		if ( $pluginfile_object->isEnabled() ) {
+			return $pluginfile_object->getCustomfields( $custom_post_type );
 		}
 	}
 
