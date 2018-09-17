@@ -595,131 +595,132 @@ function cpvg_get_customfields( $custom_post_type ) {
 
 /*********************************** HTML/DATA PROCESSING ***********************************/
 
-//Builds the list view html from the data stored in the db.
-//Uses the function that is used to process a post view: the cpvg_process_page function
-function cpvg_process_list($params)
-{
+/**
+ * Summary: Builds the list view html from the data stored in the database.
+ *          Uses the function that is used to process a post view: the cpvg_process_page function.
+ */
+function cpvg_process_list( $params ) {
 	global $table_prefix, $wpdb;
 
 	$fields = array();
-	$html = "";
+	$html = '';
 
-	$db_data = cpvg_get_dbfields_names("list");
-	$list_data = $wpdb->get_var("SELECT " . $db_data['options_field'] . " FROM " . $db_data['table_name'] . " WHERE " . $db_data['name_field'] . " = '" . $params['name'] . "'");
+	$db_data = cpvg_get_dbfields_names( 'list' );
+	$list_data = $wpdb->get_var( 'SELECT ' . $db_data['options_field'] . ' FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['name_field'] . " = '" . $params['name'] . "'" );
 
-	if ($list_data) {
-		$list_data = json_decode($list_data, true);
+	if ( $list_data ) {
+		$list_data = json_decode( $list_data, true );
 		$list_data['datafield_objects'] = array();
 
-		//Arranges the necessary data to be used in the cpvg_process_page function
-		foreach ($list_data['fields'] as $index => $value) {
-			$section_name = explode(".", $value['name']);
-			$list_data['fields'][$index]['section'] = $section_name[0];
-			$list_data['fields'][$index]['name'] = $section_name[1];
+		// Arranges the necessary data to be used in the cpvg_process_page function.
+		foreach ( $list_data['fields'] as $index => $value ) {
+			$section_name = explode( '.', $value['name'] );
+			$list_data['fields'][ $index ]['section'] = $section_name[0];
+			$list_data['fields'][ $index ]['name'] = $section_name[1];
 		}
 
-		//Saves a instances of earch datafield class that will be user later
-		$datafields_files = cpvg_get_extensions_files("php", CPVG_DATAFIELDS_DIR);
+		// Saves a instances of earch datafield class that will be user later.
+		$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
 		$objects_data = array();
-		foreach ($datafields_files as $datafield_file => $datafield_name) {
-			require_once CPVG_DATAFIELDS_DIR . "/" . $datafield_file . ".php";
+		foreach ( $datafields_files as $datafield_file => $datafield_name ) {
+			require_once CPVG_DATAFIELDS_DIR . '/' . $datafield_file . '.php';
 			$datafield_object = new $datafield_file();
 
-			foreach ($datafield_object->adminProperties() as $section_name => $section_data) {
-				$list_data['datafield_objects'][$section_name] = $datafield_object;
+			foreach ( $datafield_object->adminProperties() as $section_name => $section_data ) {
+				$list_data['datafield_objects'][ $section_name ] = $datafield_object;
 			}
 		}
 
-		//Gets alls the parameters for the WP_Query
-		$parameters_files = cpvg_get_extensions_files("php", CPVG_PARAMETER_DIR);
+		// Gets alls the parameters for the WP_Query.
+		$parameters_files = cpvg_get_extensions_files( 'php', CPVG_PARAMETER_DIR );
 		$parameter_data = array();
 
 
-		foreach ($parameters_files as $parameters_file => $parameters_name) {
-			require_once CPVG_PARAMETER_DIR . "/" . $parameters_file . ".php";
+		foreach ( $parameters_files as $parameters_file => $parameters_name ) {
+			require_once CPVG_PARAMETER_DIR . '/' . $parameters_file . '.php';
 			$parameter_object = new $parameters_file();
 
-			foreach ($parameter_object->getParameterData() as $section_name => $param_data) {
-				$parameter_data[$section_name] = $parameter_object;
+			foreach ( $parameter_object->getParameterData() as $section_name => $param_data ) {
+				$parameter_data[ $section_name ] = $parameter_object;
 			}
 		}
-		//Merge all the parameters with the $query_args var
-		$query_args = array('post_type' => $list_data['post_type']);
-		if (isset($list_data['param'])) {
-			foreach ($list_data['param'] as $param_type => $param_records) {
-				foreach ($param_records as $param_record_index => $param_record_data) {
-					$query_args = array_merge_recursive($parameter_data[$param_record_data['section']]->applyParameterData($param_type, $param_record_data), $query_args);
+		// Merge all the parameters with the $query_args var.
+		$query_args = array( 'post_type' => $list_data['post_type'] );
+		if ( isset( $list_data['param'] ) ) {
+			foreach ( $list_data['param'] as $param_type => $param_records ) {
+				foreach ( $param_records as $param_record_index => $param_record_data ) {
+					$query_args = array_merge_recursive( $parameter_data[ $param_record_data['section'] ]->applyParameterData( $param_type, $param_record_data ), $query_args );
 				}
 			}
 		}
 
-		if (isset($query_args['posts_per_page'])) {
-			$query_args = array_diff_assoc($query_args, array('posts_per_page' => $query_args['posts_per_page']));
+		if ( isset( $query_args['posts_per_page'] ) ) {
+			$query_args = array_diff_assoc( $query_args, array( 'posts_per_page' => $query_args['posts_per_page'] ) );
 		}
-		if (isset($query_args['usersorting_choice'])) {
-			$query_args = array_diff_assoc($query_args, array('usersorting_choice' => $query_args['usersorting_choice']));
-		}
-
-		//Sets a custom filter required by the custom_date parameter if necssary
-		if (isset($query_args['custom_date'])) {
-			$custom_date_param = $query_args['custom_date'];
-			$query_args = array_diff_assoc($query_args, array('custom_date' => $custom_date_param));
-			$custom_date_function = create_function('$where', '$where.="' . $custom_date_param . '"; return $where;');
+		if ( isset( $query_args['usersorting_choice'] ) ) {
+			$query_args = array_diff_assoc( $query_args, array( 'usersorting_choice' => $query_args['usersorting_choice'] ) );
 		}
 
-		if (isset($custom_date_function)) {
-			add_filter('posts_where', $custom_date_function);
+		// Sets a custom filter required by the custom_date parameter if necssary.
+		if ( isset( $query_args['custom_date'] ) ) {
+			$custom_date_param    = $query_args['custom_date'];
+			$query_args           = array_diff_assoc( $query_args, array( 'custom_date' => $custom_date_param ) );
+			$custom_date_function = create_function( '$where', '$where.="' . $custom_date_param . '"; return $where;' );
 		}
 
-		if (isset($query_args['author'])) {
-			$query_args['author'] = implode(",", $query_args['author']);
+		if ( isset( $custom_date_function ) ) {
+			add_filter( 'posts_where', $custom_date_function );
+		}
+
+		if ( isset( $query_args['author'] ) ) {
+			$query_args['author'] = implode( ',', $query_args['author'] );
 		}
 
 		$query_args['posts_per_page'] = 9999;
 		$query_args['usersorting_choice'] = 0;
 
-		//Performs query
-		$query_result = new WP_Query($query_args);
+		// Performs query.
+		$query_result = new WP_Query( $query_args );
 
-		//Removes a custom filter if the custom_date parameter was used
-		if (isset($custom_date_function)) {
-			remove_filter('posts_where', $custom_date_function);
+		// Removes a custom filter if the custom_date parameter was used.
+		if ( isset( $custom_date_function ) ) {
+			remove_filter( 'posts_where', $custom_date_function );
 		}
 
-		//Process all post data
+		// Process all post data.
 		$posts_data = $query_result->posts;
 
 		$records_data = array();
-		foreach ($posts_data as $post_data) {
-			$list_data['field_data'] = get_post_custom($post_data->ID);
-			$list_data['post_data'] = $post_data;
-			$list_data['labels'] = array();
-			$pluginfiles = cpvg_get_pluginscode_files();
+		foreach ( $posts_data as $post_data ) {
+			$list_data['field_data'] = get_post_custom( $post_data->ID );
+			$list_data['post_data']  = $post_data;
+			$list_data['labels']     = array();
+			$pluginfiles             = cpvg_get_pluginscode_files();
 
-			foreach ($pluginfiles as $pluginfile_name) {
-				include_once CPVG_PLUGINSCODE_DIR . "/" . $pluginfile_name . ".php";
+			foreach ( $pluginfiles as $pluginfile_name ) {
+				include_once CPVG_PLUGINSCODE_DIR . '/' . $pluginfile_name . '.php';
 
 				$pluginfile_object = new $pluginfile_name();
-				if ($pluginfile_object->isEnabled()) {
-					$list_data = $pluginfile_object->processPageAdditionalCode($post_data->post_type, $list_data);
-					$labels = $pluginfile_object->getCustomfields($post_data->post_type);
-					if (!is_null($labels)) {
+				if ( $pluginfile_object->isEnabled() ) {
+					$list_data = $pluginfile_object->processPageAdditionalCode( $post_data->post_type, $list_data );
+					$labels = $pluginfile_object->getCustomfields( $post_data->post_type );
+					if ( ! is_null( $labels ) ) {
 						$list_data['labels'] = $labels;
 					}
 				}
 			}
-			$records_data[] = cpvg_process_data($list_data, true);
+			$records_data[] = cpvg_process_data( $list_data, true );
 		}
 
-		//Apply theme
+		// Apply theme.
 		ob_start();
-		if (file_exists(CPVG_LIST_TEMPLATE_DIR . '/' . $list_data['template_file'] . ".php")) {
-			require CPVG_LIST_TEMPLATE_DIR . '/' . $list_data['template_file'] . ".php";
+		if ( file_exists( CPVG_LIST_TEMPLATE_DIR . '/' . $list_data['template_file'] . '.php' ) ) {
+			require CPVG_LIST_TEMPLATE_DIR . '/' . $list_data['template_file'] . '.php';
 		} else {
-			//DISPLAYS DATA EVEN IF NO TEMPLATE WAS SELECTED
-			foreach ($records_data as $record_data) {
-				foreach ($record_data as $record) {
-					echo "<b>" . $record['label'] . "</b>: " . $record['value'];
+			// Displays data even if no template was selected.
+			foreach ( $records_data as $record_data ) {
+				foreach ( $record_data as $record ) {
+					echo '<b>' . $record['label'] . ':</b> ' . $record['value'];
 				}
 			}
 		}
@@ -732,175 +733,176 @@ function cpvg_process_list($params)
 	return $html;
 }
 
-//Processes a post view. It is also called by the cpvg_process_list
-//to process each post of the list
-function cpvg_process_page()
-{
+/**
+ * Summary: Processes a post view. It is also called by the cpvg_process_list
+ *          to process each post of the list.
+ */
+function cpvg_process_page() {
 	global $wpdb, $post;
 
-	$db_data = cpvg_get_dbfields_names("post");
-	$custom_post_type_options = $wpdb->get_var("SELECT " . $db_data['options_field'] . "
-												FROM " . $db_data['table_name'] . "
-												WHERE " . $db_data['name_field'] . " = '" . $post->post_type . "'");
+	$db_data                  = cpvg_get_dbfields_names( 'post' );
+	$custom_post_type_options = $wpdb->get_var('SELECT ' . $db_data['options_field'] . '
+												FROM ' . $db_data['table_name'] . '
+												WHERE ' . $db_data['name_field'] . " = '" . $post->post_type . "'" );
 
-	if (empty($custom_post_type_options)) {
-		$content = get_the_content('Read more');
+	if ( empty( $custom_post_type_options ) ) {
+		$content = get_the_content( 'Read more' );
 		return $content;
 	} else {
-		$data = json_decode($custom_post_type_options, true);
-		$data['field_data'] = get_post_custom($post->ID);
-		$data['post_data'] = $post;
-		$data['labels'] = array();
+		$data = json_decode( $custom_post_type_options, true );
+		$data['field_data'] = get_post_custom( $post->ID );
+		$data['post_data']  = $post;
+		$data['labels']     = array();
 
-		//Saves a instances of earch datafield class that will be user later
-		$df_files = cpvg_get_extensions_files('php', CPVG_DATAFIELDS_DIR);
+		// Saves a instances of earch datafield class that will be user later.
+		$df_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
 		$class_instaces = array();
-		foreach ($df_files as $df_file => $df_file_name) {
-			require_once CPVG_DATAFIELDS_DIR . "/" . $df_file . ".php";
+		foreach ( $df_files as $df_file => $df_file_name ) {
+			require_once CPVG_DATAFIELDS_DIR . '/' . $df_file . '.php';
 			$class = new $df_file();
 
-			foreach ($class->adminProperties() as $supported_section => $supported_fields) {
-				$class_instaces[$supported_section] = $class;
+			foreach ( $class->adminProperties() as $supported_section => $supported_fields ) {
+				$class_instaces[ $supported_section ] = $class;
 			}
 		}
 
-		//Add the datafields data to the data array
-		foreach ($data['fields'] as $index => $value) {
-			$section_name = explode(".", $value['name']);
+		// Add the datafields data to the data array.
+		foreach ( $data['fields'] as $index => $value ) {
+			$section_name = explode( '.', $value['name'] );
 
 
-			if (count($section_name) == 2) {
-				$data['fields'][$index]['section'] = $section_name[0];
-				$data['fields'][$index]['name'] = $section_name[1];
-				if (isset($class_instaces[$section_name[0]])) {
-					$data['datafield_objects'][$section_name[0]] = $class_instaces[$section_name[0]];
+			if ( count( $section_name ) == 2 ) {
+				$data['fields'][ $index ]['section'] = $section_name[0];
+				$data['fields'][ $index ]['name']    = $section_name[1];
+				if ( isset( $class_instaces[ $section_name[0] ] ) ) {
+					$data['datafield_objects'][ $section_name[0] ] = $class_instaces[ $section_name[0] ];
 				} else {
-					$data['datafield_objects'][$section_name[0]] = null;
+					$data['datafield_objects'][ $section_name[0] ] = null;
 				}
 			}
 		}
 
-		//Loads data from custom post type plugins
+		// Loads data from custom post type plugins.
 		$pluginfiles = cpvg_get_pluginscode_files();
-		foreach ($pluginfiles as $pluginfile_name) {
-			include_once CPVG_PLUGINSCODE_DIR . "/" . $pluginfile_name . ".php";
+		foreach ( $pluginfiles as $pluginfile_name ) {
+			include_once CPVG_PLUGINSCODE_DIR . '/' . $pluginfile_name . '.php';
 
 			$pluginfile_object = new $pluginfile_name();
-			if ($pluginfile_object->isEnabled()) {
-				$data = $pluginfile_object->processPageAdditionalCode($post->post_type, $data);
-				$labels = $pluginfile_object->getCustomfields($post->post_type);
-				if (!is_null($labels)) {
+			if ( $pluginfile_object->isEnabled() ) {
+				$data   = $pluginfile_object->processPageAdditionalCode( $post->post_type, $data );
+				$labels = $pluginfile_object->getCustomfields( $post->post_type );
+				if ( ! is_null( $labels ) ) {
 					$data['labels'] = $labels;
 				}
 			}
 		}
-		//Process the values
-		return cpvg_process_data($data);
+		// Process the values.
+		return cpvg_process_data( $data );
 	}
 }
 
-//Process each value
-function cpvg_process_data($data = null, $external_template_processing = false)
-{
-	if (isset($data['template_file']) && isset($data['fields'])) {
-		$template = CPVG_POST_TEMPLATE_DIR . '/' . $data['template_file'] . ".php";;
+/**
+ * Summary: Process each value.
+ */
+function cpvg_process_data( $data = null, $external_template_processing = false ) {
+	if ( isset( $data['template_file'] ) && isset( $data['fields'] ) ) {
+		$template = CPVG_POST_TEMPLATE_DIR . '/' . $data['template_file'] . '.php';
 		$fields = $data['fields'];
 	} else {
-		//Admin Post View Window Preview
-		$template = CPVG_POST_TEMPLATE_DIR . '/' . $_POST['template'] . ".php";
+		// Admin Post View Window Preview.
+		$template = CPVG_POST_TEMPLATE_DIR . '/' . $_POST['template'] . '.php';
 		$fields = $_POST['fields'];
 	}
 
 	$record_data = array();
-	if (!empty($fields)) {
-		foreach ($fields as $field_data) {
+	if ( ! empty( $fields ) ) {
+		foreach ( $fields as $field_data ) {
 
-			$field = array();
-			$additional_data = array();
-			$output_options = array();
+			$field               = array();
+			$additional_data     = array();
+			$output_options      = array();
 			$output_options_temp = array();
-			$field_content = "";
+			$field_content       = '';
 
-			if ($field_data['name'] == "Content Editor") {
+			if ( 'Content Editor' == $field_data['name'] ) {
 				$field_content = $data['post_data']->post_content;
 			}
 
-			foreach ($field_data as $key => $value) {
-				if (strpos($key, 'options') === 0) {
+			foreach ( $field_data as $key => $value ) {
+				if ( strpos( $key, 'options' ) === 0 ) {
 					$output_options_temp[] = $value;
 				}
 			}
-			foreach ($output_options_temp as $index => $value) {
-				$output_options[$index + 1] = $value;
+			foreach ( $output_options_temp as $index => $value ) {
+				$output_options[ $index + 1 ] = $value;
 			}
 
-			if (isset($data['field_data'])) {
-				$field_key = array_search($field_data['name'], $data['labels']);
-				$post_types = get_post_types(array('_builtin' => false));
+			if ( isset( $data['field_data'] ) ) {
+				$field_key  = array_search( $field_data['name'], $data['labels'] );
+				$post_types = get_post_types( array( '_builtin' => false ) );
 
-				if (isset($data['field_data']["_thumbnail_id"])) {
-					$data['post_data']->_thumbnail_id = $data['field_data']["_thumbnail_id"][0];
+				if ( isset( $data['field_data']['_thumbnail_id'] ) ) {
+					$data['post_data']->_thumbnail_id = $data['field_data']['_thumbnail_id'][0];
 				}
 
-				if (isset($data['field_data'][$field_key][0]) && ($data['field_data'][$field_key][0])) {
-					if (in_array("acf", array_keys($post_types))) { //CODE NECESSARY FOR THE ACF PLUGIN
-						$field_content = $data['field_data'][$field_key][0];
+				if ( isset( $data['field_data'][ $field_key ][0] ) && ($data['field_data'][ $field_key ][0] ) ) {
+					if ( in_array( 'acf', array_keys( $post_types ) ) ) { // Code necessary for the ACF plugin.
+						$field_content = $data['field_data'][ $field_key ][0];
 					} else {
-						if ($field_data['section'] == $data['post_type']) {
-							$field_content = $data['field_data'][$field_key][0];
+						if ( $field_data['section'] == $data['post_type'] ) {
+							$field_content = $data['field_data'][ $field_key ][0];
 						}
 					}
-					//CUSTOM POST TYPE
-				} else if (isset($data['datafield_objects'][$field_data['section']])) {
-					// OTHER SECTION: POST, USER, ETC.
-
-					if (!isset($field_data['extra_options'])) {
+					// Custom Post Type.
+				} else if ( isset( $data['datafield_objects'][ $field_data ['section'] ] ) ) {
+					// Other Section: POST, USER, ETC.
+					if ( ! isset( $field_data['extra_options'] ) ) {
 						$field_data['extra_options'] = null;
 					}
-					$field_content = $data['datafield_objects'][$field_data['section']]->getValue($field_data['name'], $data['post_data'], $field_data['extra_options']);
+					$field_content = $data['datafield_objects'][ $field_data['section'] ]->getValue( $field_data['name'], $data['post_data'], $field_data['extra_options'] );
 				}
 			} else {
 				$field_content = 'NOT_SET';
 			}
 
-			if (isset($field_data['additional_data'])) {
+			if ( isset( $field_data['additional_data'] ) ) {
 				$additional_data = $field_data['additional_data'];
 			}
 
-			if (class_exists($field_data['type'])) {
+			if ( class_exists( $field_data['type'] ) ) {
 				$fieldtype_object = new $field_data['type'];
-				$field['value'] = $fieldtype_object->processValue($field_content, $output_options, $additional_data);
+				$field['value']   = $fieldtype_object->processValue( $field_content, $output_options, $additional_data );
 			} else {
-				if ($field_content == 'NOT_SET') {
+				if ( $field_content == 'NOT_SET' ) {
 					$field['value'] = cpvg_random_text_value();
 				} else {
 					$field['value'] = $field_content;
 				}
 			}
 
-			$field = array_merge($field, $field_data);
-			if ($field['hide_empty'] != 'true') {
+			$field = array_merge( $field, $field_data );
+			if ( $field['hide_empty'] != 'true' ) {
 				$record_data[] = $field;
 			} else {
-				if (!empty($field['value'])) {
+				if ( ! empty( $field['value'] ) ) {
 					$record_data[] = $field;
 				}
 			}
 		}
 	}
 
-	if ($external_template_processing) {
-		//LIST VIEWS
+	if ( $external_template_processing ) {
+		// List Views.
 		return $record_data;
 	} else {
-		//POST VIEWS
+		// Post Views.
 		ob_start();
-		if (file_exists($template)) {
+		if ( file_exists( $template ) ) {
 			require $template;
 		} else {
-			//DISPLAYS DATA EVEN IF NO TEMPLATE WAS SELECTED
-			foreach ($record_data as $record) {
-				echo "<b>" . $record['name'] . "</b>: " . $record['value'] . "<br/>";
+			// Displays data even if no template was selected.
+			foreach ( $record_data as $record ) {
+				echo '<b>' . $record['name'] . ':</b> ' . $record['value'] . '<br />';
 			}
 		}
 		$html = ob_get_contents();
@@ -910,9 +912,10 @@ function cpvg_process_data($data = null, $external_template_processing = false)
 	}
 }
 
-//Print the data in the Admin Post View Preview
-function cpvg_generate_preview()
-{
+/**
+ * Sumamary: Print the data in the Admin Post View Preview.
+ */
+function cpvg_generate_preview() {
 	print cpvg_process_data();
 	exit;
 }
@@ -921,7 +924,7 @@ function cpvg_generate_preview()
 //Saves/Update the layout for the list or post view
 function cpvg_save_layout()
 {
-	if (isset($_POST['view_type']) && isset($_POST['view_value'])) {
+	if ( isset($_POST['view_type']) && isset($_POST['view_value'])) {
 		if (!empty($_POST['view_value'])) {
 			$layout_data = array();
 			$layout_data['template_file'] = $_POST['template'];
