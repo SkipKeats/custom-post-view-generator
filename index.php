@@ -1054,37 +1054,38 @@ function cpvg_help() {
 
 /****************************************** MISC **************************************************/
 
-//Get the database table and field names
-function cpvg_get_dbfields_names($option)
-{
+/**
+ * Summary: Get the database table and field names.
+ */
+function cpvg_get_dbfields_names( $option ) {
 	global $table_prefix;
-	$data = array();
+	$data                  = array();
+	$data['name_field']    = 'name';
+	$data['options_field'] = 'options';
+	$data['id_field']      = 'id';
+	$data['access_field']  = $data['name_field'];
 
-	$data['name_field'] = "name";
-	$data['options_field'] = "options";
-	$data['id_field'] = "id";
-	$data['access_field'] = $data['name_field'];
-
-	switch ($option) {
+	switch ( $option ) {
 		case 'post':
-			$data['table_name'] = $table_prefix . "cpvg_post_views";
+			$data['table_name'] = $table_prefix . 'cpvg_post_views';
 			break;
 		case 'list':
-			$data['table_name'] = $table_prefix . "cpvg_list_views";
+			$data['table_name'] = $table_prefix . 'cpvg_list_views';
 			break;
 	}
 
 	return $data;
 }
 
-//Checke if the table exists
-function check_database($table_name = "cpvg")
-{
+/**
+ * Summary: Check if the table exists.
+ */
+function check_database( $table_name = 'cpvg' ) {
 	global $wpdb;
 	$wp_cpvg_table = $table_name;
 
-	if ($wpdb->get_var("show tables like '$wp_cpvg_table'") != $wp_cpvg_table) {
-		$sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
+	if ( $wpdb->get_var( "Show tables like '$wp_cpvg_table'" ) != $wp_cpvg_table ) {
+		$sql0  = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`       					int(11)      NOT NULL auto_increment,";
 		$sql0 .= "  `name` 	varchar(255) NOT NULL default '', ";
 		$sql0 .= "  `options`  text         NOT NULL default '', ";
@@ -1096,25 +1097,27 @@ function check_database($table_name = "cpvg")
 	}
 }
 
-//Returns the requested post view data
-function cpvg_get_post_view_data()
-{
+/**
+ * Summary: Returns the requested post view data.
+ */
+function cpvg_get_post_view_data() {
 	global $wpdb;
 
-	if (isset($_POST['view_value'])) {
-		$db_data = cpvg_get_dbfields_names($_POST['view_type']);
-		$custom_post_type_options = $wpdb->get_var("SELECT " . $db_data['options_field'] . " FROM " . $db_data['table_name'] . " WHERE " . $db_data['name_field'] . " = '" . $_POST['view_value'] . "'");
+	if ( isset( $_POST['view_value'] ) ) {
+		$db_data                  = cpvg_get_dbfields_names( $_POST['view_type'] );
+		$custom_post_type_options = $wpdb->get_var( 'SELECT ' . $db_data['options_field'] . ' FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['name_field'] . " = '" . $_POST['view_value'] . "'" );
 		print $custom_post_type_options;
 	}
 }
 
-//Returns the requested list view data
-function cpvg_get_list_view_data()
-{
+/**
+ * Summary: Returns the requested list view data.
+ */
+function cpvg_get_list_view_data() {
 	global $wpdb;
-	if (isset($_POST['view_value'])) {
-		$db_data = cpvg_get_dbfields_names($_POST['view_type']);
-		$custom_post_type_options = $wpdb->get_var("SELECT " . $db_data['options_field'] . " FROM " . $db_data['table_name'] . " WHERE " . $db_data['name_field'] . " = '" . $_POST['view_value'] . "'");
+	if ( isset( $_POST['view_value'] ) ) {
+		$db_data = cpvg_get_dbfields_names( $_POST['view_type'] );
+		$custom_post_type_options = $wpdb->get_var( 'SELECT ' . $db_data['options_field'] . ' FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['name_field'] . " = '" . $_POST['view_value'] . "'" );
 		print $custom_post_type_options;
 	}
 }
