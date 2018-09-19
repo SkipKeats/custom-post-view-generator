@@ -25,7 +25,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 }
 
 if ( ! defined( 'WP_INCLUDES_DIR' ) ) {
-	define( 'WP_INCLUDES_DIR', ABSPATH . 'wp-includes/' );
+	define( 'WP_INCLUDES_DIR', ABSPATH . 'wp-includes' );
 }
 
 // Defines the plugin name.
@@ -414,7 +414,7 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	//require_once WP_PLUGIN_DIR . "/wp-includes/link-template.php";
 	//require_once includes_url( 'link-template.php' );
 	//require_once WPINC . "/link-template.php";
-	require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php';
+	//require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php';
 
 	?>
 	<script type='text/javascript'>
