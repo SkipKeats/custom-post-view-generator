@@ -24,9 +24,9 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 	define( 'WP_PLUGIN_DIR', '/' );
 }
 
-//if ( ! defined( 'WP_INCLUDES_DIR' ) ) {
-//	define( 'WP_INCLUDES_DIR', '../../wp/wp-includes/' );
-//}
+if ( ! defined( 'WP_INCLUDES_DIR' ) ) {
+	define( 'WP_INCLUDES_DIR', '/' );
+}
 
 // Defines the plugin name.
 if ( ! defined( 'CPVG_PLUGIN_NAME' ) ) {
@@ -382,7 +382,7 @@ function cpvg_post_views() {
 			$purl = plugins_url();
 			echo 'Includes Path: ' . $url . '<br />';
 			echo 'Relative Includes Path: ' . WPINC . '<br />';
-			//echo 'WP Includes Dir: ' . WP_INCLUDES_DIR . '<br />';
+			echo 'WP Includes Dir: ' . WP_INCLUDES_DIR . '<br />';
 			echo 'Plugin Path: ' . WP_PLUGIN_DIR . '<br />';
 			echo 'CPVG Plugin Name: ' . CPVG_PLUGIN_NAME . '<br />';
 			echo 'CPVG Plugin Dir: ' . CPVG_PLUGIN_DIR . '<br />';
