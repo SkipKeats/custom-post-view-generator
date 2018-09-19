@@ -25,7 +25,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 }
 
 if ( ! defined( 'WP_INCLUDES_DIR' ) ) {
-	define( 'WP_INCLUDES_DIR', '/' );
+	define( 'WP_INCLUDES_DIR', 'Test' );
 }
 
 // Defines the plugin name.
