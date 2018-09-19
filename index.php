@@ -179,7 +179,7 @@ if ( is_admin() ) {
 	add_shortcode( 'cpvg_list', 'cpvg_process_list' );
 }
 
-/*
+/**
  * Create tables, deletes current tables to prevent version incompatibility
  */
 function cpvg_activation() {
@@ -189,9 +189,9 @@ function cpvg_activation() {
 	 */
 	global $wpdb, $table_prefix;
 
-	$wp_cpvg_table = $table_prefix . "cpvg_post_views";
+	$wp_cpvg_table = $table_prefix . 'cpvg_post_views';
 	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'") != $wp_cpvg_table ) {
-		$sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
+		$sql0  = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`        int(11)      NOT NULL auto_increment,";
 		$sql0 .= "  `name` 	    varchar(255) NOT NULL default '', ";
 		$sql0 .= "  `options`   text         NOT NULL default '', ";
@@ -202,7 +202,7 @@ function cpvg_activation() {
 		dbDelta( $sql0 );
 	}
 
-	$wp_cpvg_table = $table_prefix . "cpvg_list_views";
+	$wp_cpvg_table = $table_prefix . 'cpvg_list_views';
 	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'" ) != $wp_cpvg_table ) {
 		$sql0 = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`       					int(11)      NOT NULL auto_increment,";
@@ -274,9 +274,9 @@ function cpvg_list_views() {
 
 	$meta_boxes_data = array(
 		'list_views' => 'List Views',
-		'fields' => 'Fields',
+		'fields'     => 'Fields',
 		'parameters' => 'Parameters',
-		'finish' => 'Finish',
+		'finish'     => 'Finish',
 	);
 	$post_types = array_diff_assoc(
 		get_post_types( array( '_builtin' => false ), 'names' ), array( 'content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy' ) 
