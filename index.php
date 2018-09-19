@@ -25,7 +25,7 @@ if ( ! defined( 'WP_PLUGIN_DIR' ) ) {
 }
 
 if ( ! defined( 'WP_INCLUDES_DIR' ) ) {
-	define( 'WP_INCLUDES_DIR', ABSPATH );
+	define( 'WP_INCLUDES_DIR', ABSPATH . 'wp-includes/' );
 }
 
 // Defines the plugin name.
