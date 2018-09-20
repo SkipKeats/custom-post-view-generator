@@ -424,22 +424,24 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	?>
 	<script type='text/javascript'>
 		<?php
-			// List of Template Files.
-			$template_files = cpvg_capitalize_array_values( cpvg_get_extensions_files( 'php', CPVG_POST_TEMPLATE_DIR ) );
+		// List of Template Files.
+		$template_files = cpvg_capitalize_array_values( cpvg_get_extensions_files( 'php', CPVG_POST_TEMPLATE_DIR ) );
 
-			$object_types = array_diff_assoc(
-				get_post_types(
-					array( '_builtin' => false )
-				),
+		$object_types = array_diff_assoc(
+			get_post_types(
 				array(
-					'content-type' => 'content-type',
-					'rw_content_type' => 'rw_content_type',
-					'rw_taxonomy' => 'rw_taxonomy',
+					'_builtin' => false,
 				)
-			);
-			$objects_data = array();
+			),
+			array(
+				'content-type'    => 'content-type',
+				'rw_content_type' => 'rw_content_type',
+				'rw_taxonomy'     => 'rw_taxonomy',
+			)
+		);
+		$objects_data = array();
 
-			// Post Views.
+		// Post Views.
 		foreach ( $object_types as $post_type ) {
 			$custom_fields_data = cpvg_get_customfields( $post_type );
 			if ( ! empty( $custom_fields_data ) ) {
@@ -461,9 +463,9 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 
 		// Mandatory.
 		<?php
-		if ( $view_type == 'post' ) {
+		if ( 'post' === $view_type ) {
 			echo "viewModel.setData('view_type','" . $view_type . "');\n";
-			echo "viewModel.setData('siteurl','" . home_url("") . "');\n";
+			echo "viewModel.setData('siteurl','" . home_url('') . "');\n";
 			echo "viewModel.setData('available_template_files'," . json_encode( $template_files ) . ",'assocArray');\n";
 		}
 
@@ -478,11 +480,11 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 
 		echo "viewModel.setData('available_post_types'," . json_encode( $js_posttypes ) . ",'assocArray');\n";
 		echo "viewModel.setData('available_custom_fields'," . json_encode( array_merge( $objects_data, array( 'field_sections' => array_keys( $objects_data ) ) ) ) . ",'json');\n";
-		echo 'viewModel.setAvailableFieldTypes(' . cpvg_load_fieldtypes(true) . ");\n";
+		echo 'viewModel.setAvailableFieldTypes(' . cpvg_load_fieldtypes( true ) . ");\n";
 
 		// Data fields.
 		$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
-		$objects_data = array();
+		$objects_data     = array();
 
 		foreach ( $datafields_files as $datafield_file => $datafield_name ) {
 			require_once CPVG_DATAFIELDS_DIR . '/' . $datafield_file . '.php';
@@ -500,7 +502,7 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 				foreach ( $parameters_files as $parameters_file => $parameters_name ) {
 					require_once CPVG_PARAMETER_DIR . '/' . $parameters_file . '.php';
 					$parameter_object = new $parameters_file();
-					$filter_data = array_merge_recursive( $filter_data, $parameter_object->getParameterData( $param_name ) );
+					$filter_data      = array_merge_recursive( $filter_data, $parameter_object->getParameterData( $param_name ) );
 				}
 				echo "viewModel.parseParamConfig('" . $param_name . "'," . json_encode( $filter_data ) . ");\n";
 			}
@@ -523,11 +525,11 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
  * Summary: Load the plugincode files - files necessary to extract the fields created by a custom post type field.
  */
 function cpvg_get_pluginscode_files() {
-	$find_strings = array();
+	$file            = readdir( $handle );
+	$files           = array();
+	$find_strings    = array();
+	$handle          = opendir( CPVG_PLUGINSCODE_DIR );
 	$replace_strings = array();
-	$files = array();
-	$handle = opendir( CPVG_PLUGINSCODE_DIR );
-	$file = readdir( $handle );
 
 	if ( $handle ) {
 		while ( false !== ( $file ) ) {
@@ -556,7 +558,7 @@ function cpvg_load_fieldtypes( $output_json = false ) {
 	foreach ( $files as $fieldtype_name ) {
 		include_once CPVG_FIELDTYPES_DIR . '/' . $fieldtype_name . '.php';
 		$fieldtype_object = new $fieldtype_name();
-		$types_options = array_merge( $types_options, $fieldtype_object->adminProperties() );
+		$types_options    = array_merge( $types_options, $fieldtype_object->adminProperties() );
 	}
 
 	if ( $output_json ) {
@@ -574,8 +576,8 @@ function cpvg_load_fieldtypes( $output_json = false ) {
  * Summary: Load the extension files - templates, datafields.
  */
 function cpvg_get_extensions_files( $file_type = 'php', $dir = CPVG_POST_TEMPLATE_DIR ) {
-	$files = array();
-	$find_strings = array( '-', '_', 'cpvg' );
+	$files           = array();
+	$find_strings    = array( '-', '_', 'cpvg' );
 	$replace_strings = array( ' ', ' ', ' ' );
 
 	foreach ( glob( $dir . '/*.' . $file_type ) as $file ) {
@@ -615,10 +617,9 @@ function cpvg_get_customfields( $custom_post_type ) {
 function cpvg_process_list( $params ) {
 	global $table_prefix, $wpdb;
 
-	$fields = array();
-	$html = '';
-
-	$db_data = cpvg_get_dbfields_names( 'list' );
+	$fields    = array();
+	$html      = '';
+	$db_data   = cpvg_get_dbfields_names( 'list' );
 	$list_data = $wpdb->get_var( 'SELECT ' . $db_data['options_field'] . ' FROM ' . $db_data['table_name'] . ' WHERE ' . $db_data['name_field'] . " = '" . $params['name'] . "'" );
 
 	if ( $list_data ) {
@@ -634,7 +635,7 @@ function cpvg_process_list( $params ) {
 
 		// Saves a instances of earch datafield class that will be user later.
 		$datafields_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
-		$objects_data = array();
+		$objects_data     = array();
 		foreach ( $datafields_files as $datafield_file => $datafield_name ) {
 			require_once CPVG_DATAFIELDS_DIR . '/' . $datafield_file . '.php';
 			$datafield_object = new $datafield_file();
@@ -689,7 +690,7 @@ function cpvg_process_list( $params ) {
 			$query_args['author'] = implode( ',', $query_args['author'] );
 		}
 
-		$query_args['posts_per_page'] = 9999;
+		$query_args['posts_per_page']     = 9999;
 		$query_args['usersorting_choice'] = 0;
 
 		// Performs query.
@@ -716,7 +717,7 @@ function cpvg_process_list( $params ) {
 				$pluginfile_object = new $pluginfile_name();
 				if ( $pluginfile_object->isEnabled() ) {
 					$list_data = $pluginfile_object->processPageAdditionalCode( $post_data->post_type, $list_data );
-					$labels = $pluginfile_object->getCustomfields( $post_data->post_type );
+					$labels    = $pluginfile_object->getCustomfields( $post_data->post_type );
 					if ( ! is_null( $labels ) ) {
 						$list_data['labels'] = $labels;
 					}
@@ -768,7 +769,7 @@ function cpvg_process_page() {
 		$data['labels']     = array();
 
 		// Saves a instances of earch datafield class that will be user later.
-		$df_files = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
+		$df_files       = cpvg_get_extensions_files( 'php', CPVG_DATAFIELDS_DIR );
 		$class_instaces = array();
 		foreach ( $df_files as $df_file => $df_file_name ) {
 			require_once CPVG_DATAFIELDS_DIR . '/' . $df_file . '.php';
@@ -824,7 +825,7 @@ function cpvg_process_data( $data = null, $external_template_processing = false 
 	} else {
 		// Admin Post View Window Preview.
 		$template = CPVG_POST_TEMPLATE_DIR . '/' . $_POST['template'] . '.php';
-		$fields = $_POST['fields'];
+		$fields   = $_POST['fields'];
 	}
 
 	$record_data = array();
@@ -1105,8 +1106,8 @@ function check_database( $table_name = 'cpvg' ) {
 		$sql0 .= "  UNIQUE KEY `id` (`id`) ";
 		$sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
-		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');
-		dbDelta($sql0);
+		require_once ABSPATH . 'wp-admin/upgrade-functions.php';
+		dbDelta( $sql0 );
 	}
 }
 
