@@ -181,7 +181,6 @@ if ( is_admin() ) {
 	 * If you are getting garbage on post listing, uncomment the next line.
 	 */
 	// add_filter( 'the_excerpt', 'cpvg_process_excerpt',-999 );.
-
 	// Used in list views.
 	add_shortcode( 'cpvg_list', 'cpvg_process_list' );
 }
@@ -230,10 +229,10 @@ function cpvg_activation() {
  */
 function cpvg_deactivation() {
 	global $wpdb, $table_prefix;
-	$wp_cpvg_table = $table_prefix . "cpvg_post_views";
-	$wpdb->query("DROP TABLE " . $wp_cpvg_table);
-	$wp_cpvg_table = $table_prefix . "cpvg_list_views";
-	$wpdb->query("DROP TABLE " . $wp_cpvg_table);
+	$wp_cpvg_table = $table_prefix . 'cpvg_post_views';
+	$wpdb->query('DROP TABLE ' . $wp_cpvg_table);
+	$wp_cpvg_table = $table_prefix . 'cpvg_list_views';
+	$wpdb->query('DROP TABLE ' . $wp_cpvg_table);
 }
 
 /**
