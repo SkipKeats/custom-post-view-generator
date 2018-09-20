@@ -113,10 +113,10 @@ if ( is_admin() ) {
 	 */
 	function cpvg_admin_scripts() {
 		// JavaScript.
-		wp_register_script( 'cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', false, null );
-		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', false, null );
-		wp_register_script( 'cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', false, null );
-		wp_register_script( 'cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', false, null );
+		wp_register_script( 'cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', array(), '1.0', false );
+		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', array(), '3.2.13', false );
+		wp_register_script( 'cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', array( 'jquery' ), '1.0.0pre', false );
+		wp_register_script( 'cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', array(), '1.2.1', false );
 
 		wp_enqueue_script(
 			array(
@@ -415,7 +415,6 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	//require_once includes_url( 'link-template.php' );
 	//require_once WPINC . "/link-template.php";
 	//require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php';
-	require_once WP_INCLUDES_DIR . '/link-template.php';
 
 	?>
 	<script type='text/javascript'>
