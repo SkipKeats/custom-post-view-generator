@@ -187,17 +187,19 @@ if ( is_admin() ) {
 }
 
 /**
- * Create tables, deletes current tables to prevent version incompatibility
+ * Summary: Create tables, deletes current tables to prevent version incompatibility
  */
 function cpvg_activation() {
 	cpvg_deactivation();
 	/**
+	 * Summary: Using the wpdb object to create and delete tables and data.
+	 *
 	 * @var wpdb $wpdb
 	 */
 	global $wpdb, $table_prefix;
 
 	$wp_cpvg_table = $table_prefix . 'cpvg_post_views';
-	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'") != $wp_cpvg_table ) {
+	if ( $wpdb->get_var( "show tables like '$wp_cpvg_table'" ) != $wp_cpvg_table ) {
 		$sql0  = "CREATE TABLE `" . $wp_cpvg_table . "` ( ";
 		$sql0 .= "  `id`        int(11)      NOT NULL auto_increment,";
 		$sql0 .= "  `name` 	    varchar(255) NOT NULL default '', ";
@@ -205,7 +207,7 @@ function cpvg_activation() {
 		$sql0 .= "  UNIQUE KEY `id` (`id`) ";
 		$sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
-		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		require_once ABSPATH . 'wp-admin/upgrade-functions.php';
 		dbDelta( $sql0 );
 	}
 
@@ -218,7 +220,7 @@ function cpvg_activation() {
 		$sql0 .= "  UNIQUE KEY `id` (`id`) ";
 		$sql0 .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ";
 
-		require_once( ABSPATH . 'wp-admin/upgrade-functions.php' );
+		require_once ABSPATH . 'wp-admin/upgrade-functions.php';
 		dbDelta( $sql0 );
 	}
 }
@@ -238,7 +240,7 @@ function cpvg_deactivation() {
  * This method id required because the wp_register_style cause a RTL bug.
  */
 function cpvg_load_css() {
-	wp_register_style( 'cpvg_style', CPVG_PLUGIN_URL . 'cpvg_style.css' );
+	wp_register_style( 'cpvg_style', CPVG_PLUGIN_URL . 'cpvg_style.css', array(), '1.0', 'screen' );
 	wp_enqueue_style( array( 'wp-jquery-ui-dialog', 'cpvg_style' ) );
 }
 
