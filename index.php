@@ -286,8 +286,18 @@ function cpvg_list_views() {
 		'parameters' => 'Parameters',
 		'finish'     => 'Finish',
 	);
-	$post_types = array_diff_assoc(
-		get_post_types( array( '_builtin' => false ), 'names' ), array( 'content-type' => 'content-type', 'rw_content_type' => 'rw_content_type', 'rw_taxonomy' => 'rw_taxonomy' ) 
+	$post_types      = array_diff_assoc(
+		get_post_types(
+			array(
+				'_builtin' => false,
+			),
+			'names'
+		),
+		array(
+			'content-type'    => 'content-type',
+			'rw_content_type' => 'rw_content_type',
+			'rw_taxonomy'     => 'rw_taxonomy',
+		)
 	);
 
 	foreach ( $meta_boxes_data as $meta_boxes_id => $meta_boxes_name ) {
@@ -304,7 +314,7 @@ function cpvg_list_views() {
 				'cpvg-' . $meta_boxes_id,
 				'normal',
 				array(
-					'metabox' => $meta_boxes_id,
+					'metabox'   => $meta_boxes_id,
 					'post_type' => $post_types,
 				)
 			);
@@ -346,13 +356,13 @@ function cvpg_listview_metabox( $data ) {
 
 			break;
 		case 'fields':
-			if ( ! isset( $data["post_types"] ) ) {
+			if ( ! isset( $data['post_types'] ) ) {
 				$data['post_types'] = array();
 			}
 			cpvg_fieldtypes_form( $data['post_types'], 'list' );
 			break;
 	}
-	echo "<div data-bind=\"template: { name:'cpvg_" . $data["metabox"] . "' }\"></div>";
+	echo "<div data-bind=\"template: { name:'cpvg_" . $data['metabox'] . "' }\"></div>";
 }
 
 /**
@@ -365,13 +375,15 @@ function cpvg_post_views() {
 
 	$post_types = array_diff_assoc(
 		get_post_types(
-			array( '_builtin' => false ),
+			array(
+				'_builtin' => false,
+			),
 			'names'
 		),
 		array(
-			'content-type' => 'content-type',
+			'content-type'    => 'content-type',
 			'rw_content_type' => 'rw_content_type',
-			'rw_taxonomy' => 'rw_taxonomy',
+			'rw_taxonomy'     => 'rw_taxonomy',
 		)
 	);
 	?>
