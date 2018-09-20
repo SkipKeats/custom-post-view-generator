@@ -391,15 +391,10 @@ function cpvg_post_views() {
 		<div id="icon-edit-pages" class="icon32"><br /></div>
 		<h2>Post Views</h2>
 		<?php
-			$url = includes_url('link-template.php');
-			$purl = plugins_url();
-			echo 'Includes Path: ' . $url . '<br />';
-			echo 'Relative Includes Path: ' . WPINC . '<br />';
 			echo 'WP Includes Dir: ' . WP_INCLUDES_DIR . '<br />';
 			echo 'Plugin Path: ' . WP_PLUGIN_DIR . '<br />';
 			echo 'CPVG Plugin Name: ' . CPVG_PLUGIN_NAME . '<br />';
 			echo 'CPVG Plugin Dir: ' . CPVG_PLUGIN_DIR . '<br />';
-			echo 'Plugins URL: ' . $purl . '<br />'; 
 			echo 'CPVG Plugin URL: ' . CPVG_PLUGIN_URL . '<br />';
 			echo 'CPVG Post Template Dir: ' . CPVG_POST_TEMPLATE_DIR . '<br />';
 			echo 'CPVG List Template Dir: ' . CPVG_LIST_TEMPLATE_DIR . '<br />';
