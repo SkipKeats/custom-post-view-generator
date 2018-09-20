@@ -415,6 +415,7 @@ function cpvg_fieldtypes_form( $post_types, $view_type = 'post' ) {
 	//require_once includes_url( 'link-template.php' );
 	//require_once WPINC . "/link-template.php";
 	//require_once '/Users/wilfredk/Sites/datagov-wp/wordpress/web/wp/wp-includes/link-template.php';
+	require_once WP_INCLUDES_DIR . '/link-template.php';
 
 	?>
 	<script type='text/javascript'>
