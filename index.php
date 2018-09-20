@@ -114,7 +114,7 @@ if ( is_admin() ) {
 	function cpvg_admin_scripts() {
 		// JavaScript.
 		wp_register_script( 'cpvg_functions', CPVG_PLUGIN_URL . 'cpvg_functions.min.js', array(), '1.0', false );
-		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', array(), '3.2.13', false );
+		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . 'libs/flowplayer/flowplayer-3.2.13.min.js', array( 'jquery' ), '3.2.13', false );
 		wp_register_script( 'cpvg_jquery_tmpl', CPVG_PLUGIN_URL . 'libs/knockoutjs/jquery-tmpl.min.js', array( 'jquery' ), '1.0.0pre', false );
 		wp_register_script( 'cpvg_knockout', CPVG_PLUGIN_URL . 'libs/knockoutjs/knockout.min.js', array(), '1.2.1', false );
 
@@ -159,9 +159,9 @@ if ( is_admin() ) {
 	 * Summary: If NOT the administrative panel.
 	 */
 	function cpvg_scripts() {
-		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array( 'jquery' ), false, null );
-		wp_register_script( 'cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array( 'jquery' ), false, null );
-		wp_register_script( 'cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array( 'jquery' ), false, null );
+		wp_register_script( 'cpvg_flowplayer', CPVG_PLUGIN_URL . '/libs/flowplayer/flowplayer-3.2.13.min.js', array( 'jquery' ), '3.2.13', false );
+		wp_register_script( 'cpvg_pagination', CPVG_PLUGIN_URL . 'libs/smartpaginator/smartpaginator.min.js', array( 'jquery' ), '1.0', false );
+		wp_register_script( 'cpvg_tablesorter', CPVG_PLUGIN_URL . 'libs/tablesorter/jquery-tablesorter-min.js', array( 'jquery' ), '2.0', false );
 
 		wp_enqueue_script(
 			array(
