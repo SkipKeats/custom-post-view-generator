@@ -1053,7 +1053,7 @@ function cpvg_help() {
 		wp_die( 'You do not have sufficient permissions to access this page.' );
 	}
 
-	require_once CPVG_PLUGIN_DIR . '/parse-readme.php';
+	require_once CPVG_PLUGIN_DIR . '/class-automattic-readme.php';
 	$readme_contents = file_get_contents( CPVG_PLUGIN_DIR . '/readme.txt' );
 	$r               = new Automattic_Readme();
 	$readme          = $r->parse_readme_contents( $readme_contents );

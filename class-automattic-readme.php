@@ -1,7 +1,10 @@
 <?php
-// This is the path to markdown.php
-if ( !defined('AUTOMATTIC_README_MARKDOWN') )
-	define('AUTOMATTIC_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
+/**
+ *  This is the path to markdown.php
+ */
+if ( ! defined( 'AUTOMATTIC_README_MARKDOWN' ) ) {
+	define( 'AUTOMATTIC_README_MARKDOWN', dirname(__FILE__) . '/markdown.php' );
+}
 
 Class Automattic_Readme {
 
@@ -227,7 +230,7 @@ Class Automattic_Readme {
 	function filter_text( $text, $markdown = false ) { // fancy, Markdown
 		$text = trim($text);
 
-	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown ); // A better parser than Markdown's for: backticks -> CODE
+			$text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown ); // A better parser than Markdown's for: backticks -> CODE
 
 		if ( $markdown ) { // Parse markdown.
 			if ( !function_exists('Markdown') )
